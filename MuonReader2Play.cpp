@@ -28,6 +28,38 @@ int main (int argc, char **argv) {
     std::string nameOfAllOutputFile;
     std::string nameOfLayerConfig;
 
+    int numberOfEvents = -1;
+    int seconds = -1;
+    
+    //--------------------------------------------------------------------------------------------------
+    //        ERROR MESSAGE 
+    //--------------------------------------------------------------------------------------------------
+
+    // if something was wrong on getOptions print an error message
+    if (!getOptions(argc, argv, nameOfDevice, nameOfOutputFile, nameOfAllOutputFile,
+                                                      numberOfEvents, nameOfLayerConfig, seconds)) {
+
+        std::cerr << "\033[1;31m" << "Usage: ./DAQ --device /dev/device --conf" << 
+                                              " layermapping.json --output outputfile" <<
+                                      " --outputall rawoutput --number numberOfEvents" <<
+                                                        " --time seconds" << "\033[0m" << std::endl;
+        return -1; 
+    }
+
+    if (numberOfEvents < 1 && seconds < 1) {
+
+        std::cout << "The number of total events OR the maximum time in secons have to be provided"
+                                                                                       << std::endl;
+        return -1;
+    }
+
+    bool eventsCounting = false;
+    if (numberOfEvents > 0) eventsCounting = true; 
+
+    bool timeCounting = false;
+    if (seconds > 0) timecounting = true;
+
+
 }
 
 //---------------------------------------------------------------------//
@@ -36,7 +68,9 @@ int main (int argc, char **argv) {
 //             nameOfOutputFile, nameOfAlloutputFile  GNU values       //
 //  the arguments are the pointers of these variables &nameOfDevice... //
 //---------------------------------------------------------------------//
-bool getOptions(int argc, char **argv, std::string &nameOfDevice, std::string &nameOfOutputFile, std::string &nameOfAllOutputFile, int &numberOfEvents, std::string &nameOfLayerConfig, int &seconds) {
+bool getOptions(int argc, char **argv, std::string &nameOfDevice, std::string &nameOfOutputFile,
+                                          std::string &nameOfAllOutputFile, int &numberOfEvents, 
+                                                  std::string &nameOfLayerConfig, int &seconds) {
 
     int option_iterator; // return of getopt_long, -1 if no more options to handle
     int option_counter = 0;
