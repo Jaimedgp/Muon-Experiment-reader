@@ -23,6 +23,10 @@ bool getOptions(int, char **, std::string &, std::string &, std::string &, int &
 
 int main (int argc, char **argv) {
 
+    //-----------------------------------
+    //         DECLARE VARIABLES  
+    //-----------------------------------
+
     std::string nameOfDevice;
     std::string nameOfOutputFile;
     std::string nameOfAllOutputFile;
@@ -59,6 +63,12 @@ int main (int argc, char **argv) {
     bool timeCounting = false;
     if (seconds > 0) timecounting = true;
 
+    //-------------------------------------
+    //       WRITE THE OUTFILE
+    //-------------------------------------
+
+    std::ofstream outfile(nameOfOutputFile.c_str());
+    std::ofstream alloutfile(nameOfAllOutputFile.c_str());
 
 }
 
