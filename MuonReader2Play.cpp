@@ -61,7 +61,7 @@ int main (int argc, char **argv) {
     if (numberOfEvents > 0) eventsCounting = true; 
 
     bool timeCounting = false;
-    if (seconds > 0) timecounting = true;
+    if (seconds > 0) timeCounting = true;
 
     //-------------------------------------
     //       WRITE THE OUTFILE
@@ -133,15 +133,18 @@ bool getOptions(int argc, char **argv, std::string &nameOfDevice, std::string &n
                     seconds = (int) atoi(optarg); // atoi to convert char >> int 
                     break;
                 case '?':
+                    std::cout << "Error in ?"; // where is the error
                     return false; // quit the function
                     break;
                 default:
+                    std::cout << "No case"; // where is the error
                     return false; // quit the function
             }
         }
     }
 
     if (option_counter == 0) {
+        std::cout << "No options" << std::endl; // where is the error
         return false; // no option found
     }
 
