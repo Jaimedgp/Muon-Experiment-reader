@@ -10,6 +10,8 @@
 #include <string.h> // for std::string variables
 #include <getopt.h> // for getOptions function
 #include <stdlib.h> // to use atoi (convert char >> int)
+#include <fcntl.h> // open port function
+#include <unistd.h> // read port function
 
 //-------------------------------------------//
 //           DECLARE FUNCTIONS               //
@@ -69,6 +71,38 @@ int main (int argc, char **argv) {
 
     std::ofstream outfile(nameOfOutputFile.c_str());
     std::ofstream alloutfile(nameOfAllOutputFile.c_str());
+
+    outfile << "{" << std::endl;
+    outfile << " \"Events\": [" << std::endl;
+
+    const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a contant
+    int fd;
+
+    /** O_RDWR: Open for reading and writing. The result is undefined if this flag is
+     * O_NOCTTY: If set and path identifies a terminal device, open() shall not cause the terminal
+     *          device to become the controlling terminal for the process. If path does not identify
+     *          a terminal device, O_NOCTTY shall be ignored.
+     * O_SYNC:  Write I/O operations on the file descriptor shall complete as defined by synchronized
+     *          I/O file integrity completion
+     */
+    fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
+
+    if (fd < 0) {
+        std::cerr << "Error opening " << portname << ": " << std::endl;
+        return -1;
+    }
+
+    /* simple noncanonical input */
+    do {
+        char buf[1]; // no idea but maybe the output
+        int rdlen; // length of the read value
+        rdlen = read(fd, buf, 1); // read the com port
+
+        if (rdlen > 0) {
+
+            std::cout << buf; //print the output in terminal
+        }
+    } while (1);
 
 }
 
