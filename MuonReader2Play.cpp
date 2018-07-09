@@ -11,6 +11,10 @@
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
 
+#include <sstream>
+#include <math.h> // to pow 
+
+#include <iomanip>
 #include <string>
 #include <stdlib.h> // to use atoi (convert char >> int)
 #include <typeinfo>
@@ -41,18 +45,25 @@ int main (int argc, char **argv) {
     }
 
     //bool verdadero = true;
-    char lastBuf[1024] = "None";
+
     /* simple noncanonical input */
     //do {
     for (int i=1; i<200; i++) {
-        char buf[1024] = ""; // no idea but maybe the output
+        char buf[21]; // no idea but maybe the output
         int rdlen; // length of the read value
 
         rdlen = read(fd, buf, sizeof(buf)); // read the com port
 
         if (rdlen > 0) {
             
-            std::cout << buf;
+            int number;
+            std::stringstream hexadecimal;
+
+            hexadecimal << std::hex << buf;
+            hexadecimal >> number;
+
+            std::cout << number << std::endl;
+
             //verdadero = false;
 
             rdlen = read(fd, buf, sizeof(buf)); // read the com port
