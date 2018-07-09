@@ -64,7 +64,7 @@ int main (int argc, char **argv) {
     /* simple noncanonical input */
     //do {
     for (int i=1; i<200; i++) {
-        char buf[333]; // no idea but maybe the output
+        char buf[3]; // no idea but maybe the output
         int rdlen; // length of the read value
 
         rdlen = read(fd, buf, sizeof(buf)); // read the com port
