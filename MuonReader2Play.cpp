@@ -58,8 +58,8 @@ int main (int argc, char **argv) {
     //bool verdadero = true;
 
     time_t seconds = time (NULL); // get the seconds since January 1, 1970
-    int counter = 0;
-    std::ofstream outputFile("Data.txt");
+    int counter = 0; // number of events with no decay in a second
+    std::ofstream outputFile("Data.txt"); // open the output File
 
     /* simple noncanonical input */
     //do {
@@ -71,9 +71,12 @@ int main (int argc, char **argv) {
 
         if (rdlen > 0) {
             
-            int number = hex2Dec(buf);
+            int number = hex2Dec(buf); // convert hex to dec
 
+            // 40000 means not muon decay
             if (number == 40000) {
+
+                // if events occured in less than a second
                 if (seconds == time(NULL)){
                     counter++;
                 } else {
@@ -83,7 +86,7 @@ int main (int argc, char **argv) {
                     seconds = time(NULL);
                     counter = 0;
                 }
-            } else {
+            } else { // Muon decay
                 std::cout << number << "\t" << seconds << std::endl;
                  outputFile << number << "\t" << seconds << std::endl;
 
@@ -103,7 +106,11 @@ int main (int argc, char **argv) {
     return 0;
 }
 
-
+/**
+ * convert the hex char to dec integer
+ *
+ * char* outputPort: hex char
+ */
 int hex2Dec (char* outputPort) {
 
     int number;
