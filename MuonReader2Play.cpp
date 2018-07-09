@@ -11,13 +11,24 @@
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
 
-#include <sstream>
+#include <time.h> // get seconds
+#include <sstream> // converto hex >> dec
 #include <math.h> // to pow 
 
 #include <iomanip>
 #include <string>
 #include <stdlib.h> // to use atoi (convert char >> int)
 #include <typeinfo>
+
+//------------------------------------------
+//      DECLARE FUNCTIONS
+//------------------------------------------
+
+int hex2Dec (char*);
+
+//-----------------------------------------------------------
+//          
+//-----------------------------------------------------------
 
 int main (int argc, char **argv) {
 
@@ -46,23 +57,33 @@ int main (int argc, char **argv) {
 
     //bool verdadero = true;
 
+    time_t seconds = time (NULL); // get the seconds since January 1, 1970
+    int counter = 0;
+
     /* simple noncanonical input */
     //do {
     for (int i=1; i<200; i++) {
-        char buf[21]; // no idea but maybe the output
+        char buf[333]; // no idea but maybe the output
         int rdlen; // length of the read value
 
         rdlen = read(fd, buf, sizeof(buf)); // read the com port
 
         if (rdlen > 0) {
             
-            int number;
-            std::stringstream hexadecimal;
+            int number = hex2Dec(buf);
 
-            hexadecimal << std::hex << buf;
-            hexadecimal >> number;
-
-            std::cout << number << std::endl;
+            if (number == 40000) {
+                if (seconds == time(NULL)){
+                    counter++;
+                } else {
+                    std::cout << number+counter << "\t" << seconds << std::endl;
+                    seconds = time(NULL);
+                    counter = 0;
+                }
+            } else {
+                std::cout << number << "\t" << seconds << std::endl;
+                seconds = time(NULL);
+            }
 
             //verdadero = false;
 
@@ -72,4 +93,16 @@ int main (int argc, char **argv) {
     } //while (!verdadero);
 
     return 0;
+}
+
+
+int hex2Dec (char* outputPort) {
+
+    int number;
+    std::stringstream hexadecimal;
+
+    hexadecimal << std::hex << outputPort;
+    hexadecimal >> number;
+
+    return number*40;
 }
