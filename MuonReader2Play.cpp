@@ -59,6 +59,7 @@ int main (int argc, char **argv) {
 
     time_t seconds = time (NULL); // get the seconds since January 1, 1970
     int counter = 0;
+    std::ofstream outputFile("Data.txt");
 
     /* simple noncanonical input */
     //do {
@@ -77,20 +78,27 @@ int main (int argc, char **argv) {
                     counter++;
                 } else {
                     std::cout << number+counter << "\t" << seconds << std::endl;
+                    outputFile << number+counter << "\t" << seconds << std::endl;
+
                     seconds = time(NULL);
                     counter = 0;
                 }
             } else {
                 std::cout << number << "\t" << seconds << std::endl;
+                 outputFile << number << "\t" << seconds << std::endl;
+
                 seconds = time(NULL);
             }
 
+            rdlen = read(fd, buf, sizeof(buf));
+
             //verdadero = false;
 
-            rdlen = read(fd, buf, sizeof(buf)); // read the com port
         }
 
     } //while (!verdadero);
+    
+    outputFile.close();
 
     return 0;
 }
