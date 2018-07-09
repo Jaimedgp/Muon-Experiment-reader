@@ -13,12 +13,6 @@
 
 #include <time.h> // get seconds
 #include <sstream> // converto hex >> dec
-#include <math.h> // to pow 
-
-#include <iomanip>
-#include <string>
-#include <stdlib.h> // to use atoi (convert char >> int)
-#include <typeinfo>
 
 //------------------------------------------
 //      DECLARE FUNCTIONS
