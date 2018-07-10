@@ -1,5 +1,5 @@
 /**
- * Play re-writting the MounReader script of Pablo Martinez Ruiz del Arbol
+ *  re-write the MounReader script of Pablo Martinez Ruiz del Arbol
  *
  * @author Jaimedgp
  */
@@ -11,6 +11,7 @@
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
 
+#include <vector> // use std::vector
 #include <time.h> // get seconds
 #include <sstream> // converto hex >> dec
 
@@ -20,17 +21,20 @@
 
 int hex2Dec (char*);
 
+void save(std::vector<int>);
+
+void clasifiedData(char *, std::vector<int> &, std::vector<time_t> &, time_t &, int &);
+
 //-----------------------------------------------------------
 //          
 //-----------------------------------------------------------
 
 int main (int argc, char **argv) {
 
-    //-----------------------------------
-    //         DECLARE VARIABLES  
-    //-----------------------------------
-
     std::string nameOfDevice = "/dev/ttyUSB0";
+    std::vector<int> timer;
+    std::vector<time_t> clock;
+
 
     const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
     int fd;
@@ -50,10 +54,9 @@ int main (int argc, char **argv) {
     }
 
     //bool verdadero = true;
-
     time_t seconds = time (NULL); // get the seconds since January 1, 1970
     int counter = 0; // number of events with no decay in a second
-    std::ofstream outputFile("Data.txt"); // open the output File
+
 
     /* simple noncanonical input */
     //do {
@@ -64,28 +67,8 @@ int main (int argc, char **argv) {
         rdlen = read(fd, buf, sizeof(buf)); // read the com port
 
         if (rdlen > 0) {
-            
-            int number = hex2Dec(buf); // convert hex to dec
 
-            // 40000 means not muon decay
-            if (number == 40000) {
-
-                // if events occured in less than a second
-                if (seconds == time(NULL)){
-                    counter++;
-                } else {
-                    std::cout << number+counter << "\t" << seconds << std::endl;
-                    outputFile << number+counter << "\t" << seconds << std::endl;
-
-                    seconds = time(NULL);
-                    counter = 0;
-                }
-            } else { // Muon decay
-                std::cout << number << "\t" << seconds << std::endl;
-                 outputFile << number << "\t" << seconds << std::endl;
-
-                seconds = time(NULL);
-            }
+            clasifiedData(buf, timer, clock, seconds, counter);
 
             rdlen = read(fd, buf, sizeof(buf));
 
@@ -95,9 +78,10 @@ int main (int argc, char **argv) {
 
     } //while (!verdadero);
     
-    outputFile.close();
+    save(timer);
 
     return 0;
+
 }
 
 /**
@@ -114,4 +98,51 @@ int hex2Dec (char* outputPort) {
     hexadecimal >> number;
 
     return number*40;
+}
+
+/**
+ * Save the Data into a file
+ *
+ */
+void save(std::vector<int> muonDecay) {
+
+    std::ofstream outputFile("Data.txt"); // open the output File
+
+    for (std::vector<int>::iterator it = muonDecay.begin(); it != muonDecay.end(); ++it) {
+        outputFile << *it << "\n";
+    }
+
+    outputFile.close();
+}
+
+/**
+ * Clasified the data depends on the type of event it is
+ *
+ */
+
+void clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &clock, time_t &seconds, int &counter) {
+
+    
+    int number = hex2Dec(buf); // convert hex to dec
+
+    // 40000 means not muon decay
+    if (number == 40000) {
+
+        // if events occured in less than a second
+        if (seconds == time(NULL)){
+            counter++;
+        } else {
+            timer.push_back(number+counter);
+            clock.push_back(seconds);
+
+            seconds = time(NULL);
+            counter = 0;
+        }
+    } else { // Muon decay
+        timer.push_back(number);
+        clock.push_back(seconds);
+
+        seconds = time(NULL);
+    }
+
 }
