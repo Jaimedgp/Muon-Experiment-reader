@@ -21,7 +21,7 @@
 //      DECLARE VARIABLES
 //------------------------------------------
 
-WINDOW *graphLayout, *dataLayout, *manuBar;
+WINDOW *graphLayout, *dataLayout, *menuBar;
 
 //------------------------------------------
 //      DECLARE FUNCTIONS
@@ -72,7 +72,9 @@ int main (int argc, char **argv) {
 
     //bool verdadero = true;
     time_t seconds = time (NULL); // get the seconds since January 1, 1970
+    time_t timeinit = time(NULL);
     int counter = 0; // number of events with no decay in a second
+    int numberMuons = 0;
 
 
     /* simple noncanonical input */
@@ -85,9 +87,25 @@ int main (int argc, char **argv) {
 
         if (rdlen > 0) {
 
-            boolLoop = clasifiedData(buf, timer, clock, seconds, counter);
+            if ((time (NULL)) != timeinit) {
+             
+                boolLoop = clasifiedData(buf, timer, clock, seconds, counter);
 
-            rdlen = read(fd, buf, sizeof(buf));
+                ++numberMuons;
+                mvwprintw(dataLayout, 10, 2, "Number of Muons: %d", numberMuons);
+                wrefresh(dataLayout);
+
+                int timeSec = (int) clock.size();
+                mvwprintw(dataLayout, 12, 2, "time in seconds: %d", timeSec);
+                wrefresh(dataLayout);
+
+                double rateMuons = (double) numberMuons/timeSec;
+                mvwprintw(dataLayout, 14, 2, "Muons Rate (per second): %.2f", rateMuons);
+                wrefresh(dataLayout);
+
+                rdlen = read(fd, buf, sizeof(buf));
+
+            }
 
         }
 
