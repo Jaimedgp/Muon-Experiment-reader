@@ -31,7 +31,7 @@ void initNcurses ();
 
 void createLayouts(int, int);
 
-bool printData(int, int);
+bool printGraph(int, int);
 
 int hex2Dec (char*);
 
@@ -184,7 +184,7 @@ bool clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &cloc
             counter++;
         } else {
 
-            boolean = printData(number+counter, seconds);
+            boolean = printGraph(number+counter, seconds);
 
             timer.push_back(number+counter);
             clock.push_back(seconds);
@@ -193,11 +193,9 @@ bool clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &cloc
             counter = 0;
         }
     } else { // Muon decay
-        boolean = printData(number, seconds);
+        boolean = printGraph(number, seconds);
         timer.push_back(number);
         clock.push_back(seconds);
-
-        seconds = time(NULL);
     }
 
     return boolean;
@@ -207,7 +205,7 @@ bool clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &cloc
  * Print data on screen
  *
  */
-bool printData(int value, int seconds) {
+bool printGraph(int value, int seconds) {
 
     int x, y, maxx, maxy;
     getyx(graphLayout, y, x);
