@@ -16,6 +16,7 @@
 #include <sstream> // converto hex >> dec
 
 #include <ncurses.h> // Ncurses library
+#include <signal.h>
 
 //------------------------------------------
 //      DECLARE VARIABLES
@@ -32,6 +33,8 @@ void initNcurses ();
 void createLayouts(int, int);
 
 bool printGraph(int, int);
+
+void resizeHandler (int);
 
 int hex2Dec (char*);
 
@@ -69,6 +72,8 @@ int main (int argc, char **argv) {
     }
 
     initNcurses();
+
+    signal(SIGWINCH, resizeHandler);
 
     //bool verdadero = true;
     time_t seconds = time (NULL); // get the seconds since January 1, 1970
@@ -149,6 +154,18 @@ void createLayouts(int x , int y) {
     dataLayout = newwin(y-1, x/3, 1, 0);
     box(dataLayout, 0, 0);
     wrefresh(dataLayout);
+
+}
+
+/**
+ * Handler the resize window
+ *
+ */
+void resizeHandler(int sig) {
+
+    endwin();
+
+    initNcurses();
 
 }
 
