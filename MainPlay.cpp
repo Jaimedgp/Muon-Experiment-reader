@@ -24,6 +24,15 @@
 
 WINDOW *graphLayout, *dataLayout, *menuBar;
 
+char *choices[] = {
+                    "RUN",
+                    "SAVE",
+                    "EXIT",
+  };
+ int n_choices = sizeof(choices) / sizeof(char *);
+
+ void printMenu(WINDOW *menuBar, int highlight);
+
 //------------------------------------------
 //      DECLARE FUNCTIONS
 //------------------------------------------
@@ -31,6 +40,8 @@ WINDOW *graphLayout, *dataLayout, *menuBar;
 void initNcurses ();
 
 void createLayouts(int, int);
+
+void drawMenuBar(int, int);
 
 bool printGraph(int, int);
 
@@ -81,6 +92,10 @@ int main (int argc, char **argv) {
     int counter = 0; // number of events with no decay in a second
     int numberMuons = 0;
 
+    int highlight = 1;
+    int choise = 0;
+
+
 
     /* simple noncanonical input */
     do {
@@ -108,14 +123,45 @@ int main (int argc, char **argv) {
                 mvwprintw(dataLayout, 14, 2, "Muons Rate (per second): %.2f", rateMuons);
                 wrefresh(dataLayout);
 
-                rdlen = read(fd, buf, sizeof(buf));
+                read(fd, buf, sizeof(buf));
 
+                halfdelay(1);
+                int ch = wgetch(menuBar);
+                if (ch != -1) {
+                    switch (ch) {
+                        case KEY_LEFT:
+                            if (highlight == 1) 
+                                highlight = n_choices;
+                            else
+                                --highlight;
+                                break;
+                        case KEY_RIGHT:
+                            if (highlight == n_choices)
+                                highlight = 1;
+                            else
+                                ++highlight;
+                                break;
+                        case 10:
+                            choise = highlight;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    printMenu(menuBar, highlight);
+
+                    if (choise == 3) {
+                        boolLoop = false;
+                    }
+                }
             }
 
         }
 
     } while (boolLoop);
     
+    getch();
+
     save(timer);
 
     endwin();
@@ -155,7 +201,39 @@ void createLayouts(int x , int y) {
     box(dataLayout, 0, 0);
     wrefresh(dataLayout);
 
+    menuBar = newwin(2, x, 0, 0);
+    keypad(menuBar, TRUE);
+    printMenu(menuBar, 1);
+    wrefresh(menuBar);
+
+
 }
+
+void printMenu(WINDOW *menuBar, int highlight) {
+ 
+     int x, y, i;
+ 
+     x = 2;
+     y = 0;
+     mvwprintw(menuBar, y, x, "|    ");
+     x = 7;
+     //box(menuBar, 0, 0);
+     for(i = 0; i < n_choices; ++i) {
+         if(highlight == i + 1) { /* Resalta lo opcion actual */
+             wattron(menuBar, A_REVERSE);
+             mvwprintw(menuBar, y, x, "%s", choices[i]);
+             wattroff(menuBar, A_REVERSE);
+         } else {
+             mvwprintw(menuBar, y, x, "%s", choices[i]);
+         }
+ 
+         x =x+strlen(choices[i]);
+         mvwprintw(menuBar, y, x, "    |    ");
+         x = x+9;
+     }
+ 
+      wrefresh(menuBar);
+ }
 
 /**
  * Handler the resize window
