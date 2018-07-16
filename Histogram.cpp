@@ -19,20 +19,23 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin) {
 	Box = CDKparamValue (&params, 'N', FALSE);
 
 
-	int xPos = 8;
 	int events[10] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	int x, y;
 
 	getmaxyx(cursesWin, y, x);
 
+	int xDiv = x/12;
+    int xPos = xDiv;
+    int yDiv = y/12;
+
 	for (int i = 0; i <= 10 ; ++i) {
 
 		eachHistograms[i] =  newCDKHistogram (cdkscreen,
 						    CDKparamValue (&params, 'X', xPos), // position of leftup corner X
-						    CDKparamValue (&params, 'Y', 1), // position of left corner Y
-						    CDKparamValue (&params, 'H', y-5), // height of the column
-						    CDKparamValue (&params, 'W', x/11), // width of the column
+						    CDKparamValue (&params, 'Y', yDiv), // position of left corner Y
+						    CDKparamValue (&params, 'H', y - (3*yDiv)), // height of the column
+						    CDKparamValue (&params, 'W', xDiv), // width of the column
 						    VERTICAL, "",
 						    Box,
 						    CDKparamValue (&params, 'S', FALSE));
@@ -49,7 +52,7 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin) {
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, 10, events[i]));
 
-		xPos = xPos + 12;
+	    xPos = xPos + xDiv;
 
 	}
 
