@@ -25,16 +25,16 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin) {
 
 	getmaxyx(cursesWin, y, x);
 
-	int xDiv = x/12;
+	int xDiv = x/13;
     int xPos = xDiv;
-    int yDiv = y/12;
+    int yDiv = y/13;
 
-	for (int i = 0; i <= 10 ; ++i) {
+	for (int i = 0; i < 10 ; ++i) {
 
 		eachHistograms[i] =  newCDKHistogram (cdkscreen,
-						    CDKparamValue (&params, 'X', xPos), // position of leftup corner X
-						    CDKparamValue (&params, 'Y', yDiv), // position of left corner Y
-						    CDKparamValue (&params, 'H', y - (3*yDiv)), // height of the column
+						    CDKparamValue (&params, 'X', xPos), //position of leftup corner X
+						    CENTER, // position of left corner Y
+						    CDKparamValue (&params, 'H', y - (4*yDiv)), // height of the column
 						    CDKparamValue (&params, 'W', xDiv), // width of the column
 						    VERTICAL, "",
 						    Box,
@@ -52,7 +52,7 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin) {
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, 10, events[i]));
 
-	    xPos = xPos + xDiv;
+	    xPos = xPos + 7*xDiv/6;
 
 	}
 
@@ -63,7 +63,7 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin) {
 
 Histogram::~Histogram() {
 
-	for (int i = 0; i <= 10 ; ++i) {
+	for (int i = 0; i < 10 ; ++i) {
 		destroyCDKHistogram (eachHistograms[i]);
 	}
 
@@ -72,10 +72,11 @@ Histogram::~Histogram() {
 
 }
 
-void Histogram::drawValues(int i) {
+void Histogram::drawIncrement(int i) {
 
-	setCDKHistogramValue (eachHistograms[i], 0, 10, 5);
+    ++events[i];
+
+	setCDKHistogramValue (eachHistograms[i], 0, 10, 10);
 	refreshCDKScreen (cdkscreen);
-	sleep(2);
 	
 }
