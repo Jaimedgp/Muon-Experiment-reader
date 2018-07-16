@@ -74,9 +74,9 @@ Histogram::~Histogram() {
 
 void Histogram::drawIncrement(int i) {
 
-    ++events[i];
+    int randomNumber = rand() % 11;
 
-	setCDKHistogramValue (eachHistograms[i], 0, 10, 10);
+	setCDKHistogramValue (eachHistograms[i], 0, 10, randomNumber);
 	refreshCDKScreen (cdkscreen);
 	
 }

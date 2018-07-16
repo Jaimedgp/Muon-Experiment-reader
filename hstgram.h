@@ -10,7 +10,7 @@ class Histogram {
 		Histogram(int , char **, WINDOW*); // Constructor
 		~Histogram(); // destructor
 
-		void drawValues(int);
+		void drawIncrement(int);
 
    		int events[10];
 

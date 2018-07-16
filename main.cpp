@@ -23,6 +23,13 @@ int main (int argc, char **argv) {
 	plotSelect1 = newwin((LINES-2)/2, COLS/3, 2, 2*COLS/3);
 	box(plotSelect1, 0, 0);
 	wrefresh(plotSelect1);
+
+    mvwprintw(plotSelect1, 5, 5, "Elapsed Time: 200");
+    mvwprintw(plotSelect1, 10, 5, "Number of Muons: 100");
+    mvwprintw(plotSelect1, 15, 5, "Muonn Rate (per second): 3");
+    mvwprintw(plotSelect1, 20, 5, "Muon Decays: 4");
+    mvwprintw(plotSelect1, 25, 5, "Decay Rate (per minute): 1");
+    wrefresh(plotSelect1);
 	
 	plotSelect2 = newwin((LINES-2)/2, COLS/3, 2+(LINES-2)/2, 2*COLS/3);
 	box(plotSelect2, 0, 0);
