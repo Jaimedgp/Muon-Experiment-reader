@@ -4,27 +4,17 @@
 
 Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int numColumns) {
 
-	//cdkscreen = 0;
-	//eachHistograms = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
 	cdkscreen = initCDKScreen (cursesWin);
 	maxVlue = maxValue;
 	numclmns = numColumns;
 
-
-	/* Start CDK Color. */
-	//initCDKColor ();
-
 	CDK_PARAMS params;
-	//boolean Box;
 
 	CDKparseParams (argc, argv, &params, CDK_CLI_PARAMS);
-	//Box = CDKparamValue (&params, 'N', FALSE);
 
 	buildHistograms(cursesWin, params);
 	
 	refreshCDKScreen (cdkscreen);
-	//sleep (2);
 	
 } 
 
@@ -65,13 +55,11 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 	for (int i = 0; i < numclmns ; ++i) {
 
 		eachHistograms[i] =  newCDKHistogram (cdkscreen,
-						    CDKparamValue (&params, 'X', xBorder), //position of leftup corner X
-						    CENTER, // position of left corner Y
+						    CDKparamValue (&params, 'X', xBorder),  //position of leftup corner X
+						    CENTER,                                 // position of left corner Y
 						    CDKparamValue (&params, 'H', clmnhght), // height of the column
 						    CDKparamValue (&params, 'W', clmnwdth), // width of the column
 						    VERTICAL, "", false, false);
-						    //Box,
-						    //CDKparamValue (&params, 'S', FALSE));
 	
 		if (eachHistograms[i] == 0)	{
 			/* Exit CDK. */
@@ -79,7 +67,6 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 			endCDK ();
 
 			printf ("Cannot make treble histogram. Is the window big enough??\n");
-			//ExitProgram (EXIT_FAILURE);
 		}
 
 		/* Set the histogram values. */
