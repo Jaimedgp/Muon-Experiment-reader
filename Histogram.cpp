@@ -9,19 +9,39 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int
 
 	cdkscreen = initCDKScreen (cursesWin);
 	maxVlue = maxValue;
+	numclmns = numColumns;
 
 
 	/* Start CDK Color. */
 	//initCDKColor ();
 
 	CDK_PARAMS params;
-	boolean Box;
+	//boolean Box;
 
 	CDKparseParams (argc, argv, &params, CDK_CLI_PARAMS);
-	Box = CDKparamValue (&params, 'N', FALSE);
+	//Box = CDKparamValue (&params, 'N', FALSE);
 
+	buildHistograms(cursesWin, params);
+	
+	refreshCDKScreen (cdkscreen);
+	//sleep (2);
+	
+} 
 
-	int events[numColumns];
+Histogram::~Histogram() {
+
+	for (int i = 0; i < sizeof(eachHistograms) ; ++i) {
+		destroyCDKHistogram (eachHistograms[i]);
+	}
+
+	destroyCDKScreen (cdkscreen);
+	endCDK ();
+
+}
+
+void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
+
+	int events[numclmns];
 
 	int x, y;
 
@@ -31,18 +51,18 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int
 	int xBorder = x/15;
 	int clmnwdth;
 
-	int Pixl = x-xBorder- 2*numColumns;
-	clmnwdth = Pixl/(numColumns);
-	
-	if (numColumns > Pixl) { 
-		numColumns = Pixl;
+	int Pixl = x-xBorder- 2*numclmns;
+	clmnwdth = Pixl/(numclmns);
+
+	if (numclmns > Pixl) { 
+		numclmns = Pixl;
 		clmnwdth = 1;
 	} else {
 	}
 
     int clmnhght = 4*(y/5);
 
-	for (int i = 0; i < numColumns ; ++i) {
+	for (int i = 0; i < numclmns ; ++i) {
 
 		eachHistograms[i] =  newCDKHistogram (cdkscreen,
 						    CDKparamValue (&params, 'X', xBorder), //position of leftup corner X
@@ -63,26 +83,11 @@ Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int
 		}
 
 		/* Set the histogram values. */
-		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxValue, events[i]));
+		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, events[i]));
 
 	    xBorder += clmnwdth + 2;
 
 	}
-
-		refreshCDKScreen (cdkscreen);
-		sleep (2);
-	
-} 
-
-Histogram::~Histogram() {
-
-	for (int i = 0; i < sizeof(eachHistograms) ; ++i) {
-		destroyCDKHistogram (eachHistograms[i]);
-	}
-
-	destroyCDKScreen (cdkscreen);
-	endCDK ();
-
 }
 
 void Histogram::drawIncrement(int i) {
@@ -93,3 +98,6 @@ void Histogram::drawIncrement(int i) {
 	refreshCDKScreen (cdkscreen);
 	
 }
+
+
+

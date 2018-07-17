@@ -12,8 +12,10 @@ class Histogram {
 
 		void drawIncrement(int);
 
+		void buildHistograms(WINDOW*, CDK_PARAMS);
+
    		int events[10];
-   		int maxVlue;
+   		int maxVlue, numclmns;
 
 	private:
 		CDKSCREEN *cdkscreen;
