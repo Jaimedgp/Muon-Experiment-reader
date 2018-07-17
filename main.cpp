@@ -43,20 +43,26 @@ int main (int argc, char **argv) {
 
 	wrefresh(plotSelect2);
 
-	Histogram h(argc, argv, plotAll1);
+	Histogram h(argc, argv, plotAll1, 10, 20);
 
-	for (int i=0; i<10; ++i) {
+	for (int i=0; i<20; ++i) {
         h.drawIncrement(i);
 	}
 
-	Histogram j(argc, argv, plotAll2);
+	int y, x;
+	getmaxyx(plotAll2, y, x);
 
-	for (int i=0; i<10; ++i) {
+	int www = (x-(x/15))/4;
+
+	Histogram j(argc, argv, plotAll2, 10, www);
+
+	for (int i=0; i<www; ++i) {
         j.drawIncrement(i);
 	}
 
 	getch();
 
     endwin();
+
 	return 0;
 }

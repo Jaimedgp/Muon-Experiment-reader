@@ -7,12 +7,13 @@
 
 class Histogram {
 	public:
-		Histogram(int , char **, WINDOW*); // Constructor
+		Histogram(int , char **, WINDOW*, int, int); // Constructor
 		~Histogram(); // destructor
 
 		void drawIncrement(int);
 
    		int events[10];
+   		int maxVlue;
 
 	private:
 		CDKSCREEN *cdkscreen;
