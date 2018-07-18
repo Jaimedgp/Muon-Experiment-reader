@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "hstgram.h"
 #include "mnBr.h"
+#include "dataLy.h"
 
 int main (int argc, char **argv) {
 
@@ -31,15 +32,11 @@ int main (int argc, char **argv) {
 	showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
 	box(showDataLy, 0, 0);
 
-    mvwprintw(showDataLy, 5, 5, "Elapsed Time: 200");
-    mvwprintw(showDataLy, 7, 5, "Number of Muons: 100");
-    mvwprintw(showDataLy, 9, 5, "Muonn Rate (per second): 3");
-    mvwprintw(showDataLy, 11, 5, "Muon Decays: 4");
-    mvwprintw(showDataLy, 13, 5, "Decay Rate (per minute): 1");
+	DataLy dtly(showDataLy);
 
 	wrefresh(showDataLy);
 
-	int values[20] = {0,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9};
+	int values[20];
 
 	Histogram h(argc, argv, muonDcysLy, 10, 20, values);
 
