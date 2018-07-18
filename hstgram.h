@@ -7,14 +7,14 @@
 
 class Histogram {
 	public:
-		Histogram(int , char **, WINDOW*, int, int); // Constructor
+		Histogram(int , char **, WINDOW*, int, int, int *); // Constructor
 		~Histogram(); // destructor
 
 		void drawIncrement(int);
 
 		void buildHistograms(WINDOW*, CDK_PARAMS);
 
-   		int events[10];
+   		int *events;
    		int maxVlue, numclmns;
 
 	private:

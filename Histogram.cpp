@@ -2,11 +2,13 @@
 #include <iostream>
 #include "hstgram.h"
 
-Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int numColumns) {
+Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int numColumns, int *even) {
 
 	cdkscreen = initCDKScreen (cursesWin);
 	maxVlue = maxValue;
 	numclmns = numColumns;
+
+	events = even;
 
 	CDK_PARAMS params;
 
@@ -71,7 +73,7 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 		}
 
 		/* Set the histogram values. */
-		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, events[i]));
+		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, 0));
 
 	    xBorder += clmnwdth + 2;
 
@@ -82,7 +84,7 @@ void Histogram::drawIncrement(int i) {
 
     int randomNumber = rand() % 11;
 
-	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, randomNumber);
+	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, *(events+i));
 	refreshCDKScreen (cdkscreen);
 	
 }

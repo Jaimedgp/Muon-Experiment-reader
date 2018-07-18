@@ -4,7 +4,7 @@
 
 int main (int argc, char **argv) {
 
-	WINDOW *plotAll1, *plotAll2, *plotSelect1, *plotSelect2, *menuBar;
+	WINDOW *muonDcysLy, *muonLy, *menuLy, *showDataLy;
 
 	noecho();
 	initscr();			
@@ -13,44 +13,48 @@ int main (int argc, char **argv) {
 
 	refresh();
 
-	plotAll1 = newwin(2*(LINES)/3, 3*COLS/4, 0, 0);
-	box(plotAll1, 0, 0);
-	wrefresh(plotAll1);
+	muonDcysLy = newwin(2*(LINES)/3, 3*COLS/4, 0, 0);
+	box(muonDcysLy, 0, 0);
+	wrefresh(muonDcysLy);
 
-	plotAll2 = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
-	box(plotAll2, 0, 0);
-	wrefresh(plotAll2);
+	muonLy = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
+	box(muonLy, 0, 0);
+	wrefresh(muonLy);
 
-	plotSelect1 = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
-	box(plotSelect1, 0, 0);
+	menuLy = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
+	box(menuLy, 0, 0);
 
-    Menu mn(plotSelect1);
+    Menu mn(menuLy);
     
-    wrefresh(plotSelect1);
+    wrefresh(menuLy);
 	
-	plotSelect2 = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
-	box(plotSelect2, 0, 0);
+	showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
+	box(showDataLy, 0, 0);
 
-    mvwprintw(plotSelect2, 5, 5, "Elapsed Time: 200");
-    mvwprintw(plotSelect2, 7, 5, "Number of Muons: 100");
-    mvwprintw(plotSelect2, 9, 5, "Muonn Rate (per second): 3");
-    mvwprintw(plotSelect2, 11, 5, "Muon Decays: 4");
-    mvwprintw(plotSelect2, 13, 5, "Decay Rate (per minute): 1");
+    mvwprintw(showDataLy, 5, 5, "Elapsed Time: 200");
+    mvwprintw(showDataLy, 7, 5, "Number of Muons: 100");
+    mvwprintw(showDataLy, 9, 5, "Muonn Rate (per second): 3");
+    mvwprintw(showDataLy, 11, 5, "Muon Decays: 4");
+    mvwprintw(showDataLy, 13, 5, "Decay Rate (per minute): 1");
 
-	wrefresh(plotSelect2);
+	wrefresh(showDataLy);
 
-	Histogram h(argc, argv, plotAll1, 10, 20);
+	int values[20] = {0,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9};
+
+	Histogram h(argc, argv, muonDcysLy, 10, 20, values);
+
+	sleep(4);
 
 	for (int i=0; i<20; ++i) {
         h.drawIncrement(i);
 	}
 
 	int y, x;
-	getmaxyx(plotAll2, y, x);
+	getmaxyx(muonLy, y, x);
 
 	int www = (x-(x/15))/4;
 
-	Histogram j(argc, argv, plotAll2, 10, www);
+	Histogram j(argc, argv, muonLy, 10, www, values);
 
 	for (int i=0; i<www; ++i) {
         j.drawIncrement(i);
