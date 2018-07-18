@@ -82,12 +82,7 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 
 void Histogram::drawIncrement(int i) {
 
-    int randomNumber = rand() % 11;
-
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, *(events+i));
 	refreshCDKScreen (cdkscreen);
 	
 }
-
-
-
