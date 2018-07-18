@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include "hstgram.h"
+#include "mnBr.h"
 
 int main (int argc, char **argv) {
 
@@ -23,13 +24,8 @@ int main (int argc, char **argv) {
 	plotSelect1 = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
 	box(plotSelect1, 0, 0);
 
-    mvwprintw(plotSelect1, 2, 10, "Start");
-    mvwprintw(plotSelect1, 5, 10, "Pause");
-    mvwprintw(plotSelect1, 8, 10, "Fit");
-    mvwprintw(plotSelect1, 11, 10, "View Raw Data");
-    mvwprintw(plotSelect1, 14, 10, "Configure");
-    mvwprintw(plotSelect1, 17, 10, "Quit");
-
+    Menu mn(plotSelect1);
+    
     wrefresh(plotSelect1);
 	
 	plotSelect2 = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
