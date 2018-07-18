@@ -42,15 +42,17 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 	int clmnwdth;
 
 	int Pixl = x-xBorder- 2*numclmns;
-	clmnwdth = Pixl/(numclmns);
 
 	if (numclmns > Pixl) { 
 		numclmns = Pixl;
 		clmnwdth = 1;
 	} else {
+        clmnwdth = Pixl/(numclmns);
 	}
 
     int clmnhght = 4*(y/5);
+    int yBorder = CENTER;
+    if (clmnhght < 1) yBorder = CDKparamValue (&params, 'Y', 1);
 
 	for (int i = 0; i < numclmns ; ++i) {
 
