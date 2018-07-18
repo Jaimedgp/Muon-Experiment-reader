@@ -51,8 +51,7 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 	}
 
     int clmnhght = 4*(y/5);
-    int yBorder = CENTER;
-    if (clmnhght < 1) yBorder = CDKparamValue (&params, 'Y', 1);
+    while (clmnhght+3 >= y) clmnhght -= 1;
 
 	for (int i = 0; i < numclmns ; ++i) {
 
