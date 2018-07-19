@@ -9,7 +9,7 @@ class Menu {
 		//~Menu();
 
 		void buildMenu();
-		bool choiseOne();
+		int choiseMenu();
 
 	private:
 		WINDOW *menuWin;
