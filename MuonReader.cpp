@@ -9,6 +9,7 @@ class MuonReader {
 
     	int readUSB ();
     	int hex2Dec (char*);
+    	int[] clasifiedData (int); 
 }
 
 int MuonReader::readUSB () {
@@ -58,7 +59,9 @@ int hex2Dec (char* outputPort) {
     return number*40;
 }
 
-void clasifiedData (int elapse) {
+int[] clasifiedData (int elapse) {
+
+	int data[2] = {-1, -1};
 
 	// 40000 means not muon decay
     if (number == 40000) {
@@ -70,6 +73,7 @@ void clasifiedData (int elapse) {
             cronometer.push_back(number+counter);
             time.push_back(clock);
 
+            data[1] = counter;
             clock = time(NULL);
             counter = 0;
         }
@@ -77,6 +81,7 @@ void clasifiedData (int elapse) {
         cronometer.push_back(number);
         time.push_back(clock);
 
+        data[0] = number;
         clock = time(NULL);
     }
 }
