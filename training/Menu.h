@@ -1,5 +1,5 @@
-#ifndef mnBr_h
-#define mnBr_h
+#ifndef Menu_h
+#define Menu_h
 #include <ncurses.h>
 #include <string.h>
 

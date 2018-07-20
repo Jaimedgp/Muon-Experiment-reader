@@ -1,7 +1,7 @@
 //
 
-#ifndef hstgrm_h
-#define hstgrm_h
+#ifndef Histogram_h
+#define Histogram_h
 #define BAR(a,b,c) A_BOLD, a, b, c, ' '|A_REVERSE|COLOR_PAIR(3), false
 #include <cdk.h>
 
@@ -19,7 +19,7 @@ class Histogram {
 
 	private:
 		CDKSCREEN *cdkscreen;
-   		CDKHISTOGRAM *eachHistograms[10];
+   		CDKHISTOGRAM *eachHistograms[];
 
 };
 

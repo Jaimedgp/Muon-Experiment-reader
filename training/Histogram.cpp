@@ -1,6 +1,6 @@
 #include <cdk.h>
 #include <iostream>
-#include "hstgram.h"
+#include "Histogram.h"
 
 Histogram::Histogram(int argc, char **argv, WINDOW* cursesWin, int maxValue, int numColumns, int *even) {
 

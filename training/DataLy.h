@@ -1,5 +1,5 @@
-#ifndef dataLy_h
-#define dataLy_h
+#ifndef DataLy_h
+#define DataLy_h
 #include <ncurses.h>
 
 class DataLy {

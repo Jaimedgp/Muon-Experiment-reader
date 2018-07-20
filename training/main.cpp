@@ -2,9 +2,9 @@
 #include <iostream>
 #include <thread>
 
-#include "hstgram.h"
-#include "mnBr.h"
-#include "dataLy.h"
+#include "Menu.h"
+#include "Histogram.h"
+#include "DataLy.h"
 
 int main (int argc, char **argv) {
 
@@ -25,19 +25,19 @@ int main (int argc, char **argv) {
 	box(muonLy, 0, 0);
 	wrefresh(muonLy);
 
-	menuLy = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
-	box(menuLy, 0, 0);
+	//menuLy = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
+	//box(menuLy, 0, 0);
 
-    Menu mn(menuLy);
+    Menu mn(stdscr);
     
-    wrefresh(menuLy);
+    //wrefresh(menuLy);
 	
 	showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
 	box(showDataLy, 0, 0);
 
-	DataLy dtly(showDataLy);
+	//DataLy dtly(showDataLy);
 
-	wrefresh(showDataLy);
+	//wrefresh(showDataLy);
 
 	int values[20];
 
@@ -54,7 +54,7 @@ int main (int argc, char **argv) {
 
 	sleep(2);
 
-	std::thread first (mn.choiseOne);
+	mn.choiseMenu();
 
 	//std::thread second ();
 

@@ -15,24 +15,26 @@
 #include <time.h> // get seconds
 #include <sstream> // converto hex >> dec
 
+#include <ncurses.h>
+
 class MuonReader {
 
 	public:
-		bool reading;
 		time_t clock;
-		int counter;
+		int counterS;
+		int elapse;
+		int counterMin;
 
 		std::string nameOfDevice;
 
 		std::vector<int> cronometer;
     	std::vector<time_t> timer;
 
-    	MuonReader ( std::string );
-    	void readLoop ();
-    	
-    	int readUSB ();
+    	MuonReader (WINDOW*, std::string );
+
+    	char readUSB ();
     	int hex2Dec (char*);
-    	int* clasifiedData (int); 
+    	char clasifiedData (int); 
 };
 
 #endif

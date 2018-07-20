@@ -5,33 +5,15 @@
 
 #include "MuonReader.h"
 
-MuonReader::MuonReader ( std::string Device = "/dev/ttyUSB0") {
+MuonReader::MuonReader (WINDOW* ncursesWin, std::string Device = "/dev/ttyUSB0") {
 
 	std::string nameOfDevice = Device;
 	time_t clock = time(NULL);
 
-	counter = 0;
+	counterS = 0;
 }
 
-void MuonReader::readLoop () {
-
-	while (reading) {
-
-		int value = readUSB();
-
-		int* pointer = clasifiedData(value);
-
-		if (*(pointer) != -1) {
-			//is a muon decay
-		}
-
-		if (*(pointer+1) != -1) {
-			//its just a muon
-		}
-	}
-}
-
-int MuonReader::readUSB () {
+char MuonReader::readUSB () {
 
 
 	const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
@@ -47,7 +29,7 @@ int MuonReader::readUSB () {
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
 
     if (fd < 0) {
-        return -1;
+        return 'N';
     }
 
     char buf[3]; // no idea but maybe the output
@@ -57,37 +39,36 @@ int MuonReader::readUSB () {
     rdlen = read(fd, buf, sizeof(buf)); // read the com port
     int value = hex2Dec (buf);
 
-    return value;
+    return clasifiedData(value);
 }
 
-int* MuonReader::clasifiedData (int elapse) {
+char MuonReader::clasifiedData (int elapse) {
 
-	int data[2] = {-1, -1};
+	char type = 'N';
 
 	// 40000 means not muon decay
     if (elapse == 40000) {
 
         // if events occured in less than a second
         if (clock == time(NULL)){
-            counter++;
+            counterS++;
         } else {
-            cronometer.push_back(elapse+counter);
+            cronometer.push_back(elapse+counterS);
             timer.push_back(clock);
 
-            data[1] = counter;
+            type = 'M';
             clock = time(NULL);
-            counter = 0;
+            //counter = 0;
         }
     } else { // Muon decay
         cronometer.push_back(elapse);
         timer.push_back(clock);
 
-        data[0] = elapse;
+        type = 'D';
         clock = time(NULL);
     }
 
-    int *pointer = data;
-    return pointer;
+    return type;
 }
 
 /**

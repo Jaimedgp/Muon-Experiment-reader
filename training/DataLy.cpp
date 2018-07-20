@@ -1,4 +1,4 @@
-#include "dataLy.h"
+#include "DataLy.h"
 
 DataLy::DataLy (WINDOW *cursesWin) {
 

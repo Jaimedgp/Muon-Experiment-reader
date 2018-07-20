@@ -9,18 +9,25 @@
 #include <cdk.h>
 #include "Histograms.h"
 
-Histogram::Histogram (WINDOW* cursesWin, int maxValue, int numColumns, int *value) {
+Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 
 	cdkscreen = initCDKScreen (cursesWin); // init cdk screen in ncurses window
 	maxVlue = maxValue; // maximum value for histograms
 	numclmns = numColumns; // 
 
-	vlues = value; // values of histograms
+	buildHistograms(cursesWin);
+
+	vlue[numclmns];
+	eachHistograms[numclmns];
+
+	for (int i = 0; i < numclmns; ++i ) {
+		vlue[i] = 0;
+	}
 
 	refreshCDKScreen (cdkscreen);
 }
 
-Histogram::~Histogram () {
+Histograms::~Histograms () {
 
 	for (int i = 0; i < sizeof(eachHistograms); ++i) {
 		// Destroy each histogram
@@ -31,7 +38,7 @@ Histogram::~Histogram () {
 	endCDK ();
 }
 
-void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
+void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 	int x, y;
 
@@ -78,17 +85,17 @@ void Histogram::buildHistograms(WINDOW* cursesWin, CDK_PARAMS params) {
 	}
 }
 
-void Histogram::drawIncrement(int i) {
+void Histograms::drawIncrement(int i) {
 
-	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, *(events+i));
+	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, ++vlue[i]);
 	refreshCDKScreen (cdkscreen);
 }
 
-void Histogram::reDraw() {
+void Histograms::reDraw() {
 
 	for (int i = 0; i < sizeof(eachHistograms); ++i) {
 
-		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, *(events+i));
+		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 	}
 
 	refreshCDKScreen (cdkscreen);

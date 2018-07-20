@@ -7,22 +7,22 @@
 #define BAR(a,b,c) A_BOLD, a, b, c, ' '|A_REVERSE|COLOR_PAIR(3), false
 #include <cdk.h>
 
-class Histogram {
+class Histograms {
 	public:
-		Histogram(WINDOW*, int, int, int *); // Constructor
-		~Histogram(); // destructor
+		Histograms(WINDOW*, int, int); // Constructor
+		~Histograms(); // destructor
 
 		void drawIncrement(int);
 
 		void buildHistograms(WINDOW*);
-		void eDraw();
+		void reDraw();
 
-   		int *vlue;
+   		int vlue[];
    		int maxVlue, numclmns;
 
 	private:
 		CDKSCREEN *cdkscreen;
-   		CDKHISTOGRAM *eachHistograms[numclmns];
+   		CDKHISTOGRAM *eachHistograms[];
 
 };
 
