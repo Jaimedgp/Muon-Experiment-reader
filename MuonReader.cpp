@@ -1,20 +1,38 @@
-class MuonReader {
+/**
+ *
+ *
+ */
 
-	public:
-		bool reading;
-		int clock = time(NULL);
+#include "MuonReader.h"
 
-		std::vector<int> cronometer;
-    	std::vector<time_t> time;
+MuonReader::MuonReader ( std::string Device = "/dev/ttyUSB0") {
 
-    	int readUSB ();
-    	int hex2Dec (char*);
-    	int[] clasifiedData (int); 
+	std::string nameOfDevice = Device;
+	time_t clock = time(NULL);
+
+	counter = 0;
+}
+
+void MuonReader::readLoop () {
+
+	while (reading) {
+
+		int value = readUSB();
+
+		int* pointer = clasifiedData(value);
+
+		if (*(pointer) != -1) {
+			//is a muon decay
+		}
+
+		if (*(pointer+1) != -1) {
+			//its just a muon
+		}
+	}
 }
 
 int MuonReader::readUSB () {
 
-	std::string nameOfDevice = "/dev/ttyUSB0";
 
 	const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
     int fd;
@@ -29,7 +47,6 @@ int MuonReader::readUSB () {
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
 
     if (fd < 0) {
-        std::cerr << "Error opening " << portname << ": " << std::endl;
         return -1;
     }
 
@@ -40,7 +57,37 @@ int MuonReader::readUSB () {
     rdlen = read(fd, buf, sizeof(buf)); // read the com port
     int value = hex2Dec (buf);
 
-    return value
+    return value;
+}
+
+int* MuonReader::clasifiedData (int elapse) {
+
+	int data[2] = {-1, -1};
+
+	// 40000 means not muon decay
+    if (elapse == 40000) {
+
+        // if events occured in less than a second
+        if (clock == time(NULL)){
+            counter++;
+        } else {
+            cronometer.push_back(elapse+counter);
+            timer.push_back(clock);
+
+            data[1] = counter;
+            clock = time(NULL);
+            counter = 0;
+        }
+    } else { // Muon decay
+        cronometer.push_back(elapse);
+        timer.push_back(clock);
+
+        data[0] = elapse;
+        clock = time(NULL);
+    }
+
+    int *pointer = data;
+    return pointer;
 }
 
 /**
@@ -48,7 +95,7 @@ int MuonReader::readUSB () {
  *
  * char* outputPort: hex char
  */
-int hex2Dec (char* outputPort) {
+int MuonReader::hex2Dec (char* outputPort) {
 
     int number;
     std::stringstream hexadecimal;
@@ -57,31 +104,4 @@ int hex2Dec (char* outputPort) {
     hexadecimal >> number;
 
     return number*40;
-}
-
-int[] clasifiedData (int elapse) {
-
-	int data[2] = {-1, -1};
-
-	// 40000 means not muon decay
-    if (number == 40000) {
-
-        // if events occured in less than a second
-        if (clock == time(NULL)){
-            counter++;
-        } else {
-            cronometer.push_back(number+counter);
-            time.push_back(clock);
-
-            data[1] = counter;
-            clock = time(NULL);
-            counter = 0;
-        }
-    } else { // Muon decay
-        cronometer.push_back(number);
-        time.push_back(clock);
-
-        data[0] = number;
-        clock = time(NULL);
-    }
 }
