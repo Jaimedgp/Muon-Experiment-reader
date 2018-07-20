@@ -15,17 +15,17 @@ Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 	maxVlue = maxValue; // maximum value for histograms
 	numclmns = numColumns; // 
 
-	buildHistograms(cursesWin);
-
-	vlue[numclmns];
-	eachHistograms[numclmns];
+	//int vlue[numclmns];
+	//eachHistograms[numclmns];
 
 	for (int i = 0; i < numclmns; ++i ) {
-		vlue[i] = 0;
+		vlue.push_back(0);
 	}
 
+	buildHistograms(cursesWin);
+
 	refreshCDKScreen (cdkscreen);
-}
+} 
 
 Histograms::~Histograms () {
 
@@ -39,6 +39,10 @@ Histograms::~Histograms () {
 }
 
 void Histograms::buildHistograms(WINDOW* cursesWin) {
+
+	/*for (int i = 0; i < sizeof(vlue) ; ++i){
+		wprintw(cursesWin, "%d \n", vlue[i]);
+	}*/
 
 	int x, y;
 
@@ -77,8 +81,11 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 			printf ("Cannot make treble histogram. Is the window big enough??\n");
 		}
 
+
 		/* Set the histogram values. */
-		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, 0));
+		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
+
+		//wprintw(cursesWin, "%d \n", vlue[i]);
 
 	    xBorder += clmnwdth + 2;
 
@@ -87,7 +94,8 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 void Histograms::drawIncrement(int i) {
 
-	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, ++vlue[i]);
+	vlue[i] = vlue[i] + 1;
+	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 	refreshCDKScreen (cdkscreen);
 }
 
@@ -99,4 +107,16 @@ void Histograms::reDraw() {
 	}
 
 	refreshCDKScreen (cdkscreen);
+}
+
+void Histograms::passTime (int newTime) {
+
+	for (int i = 1; i < vlue.size(); ++i) {
+
+		vlue[i] = vlue[i-1];
+	}
+
+	vlue[0] = newTime;
+
+	reDraw();
 }

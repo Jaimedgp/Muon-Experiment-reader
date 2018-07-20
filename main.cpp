@@ -25,7 +25,7 @@ int main () {
 
 	Histograms muonPerMinutHis(muonPerMinutLy, 10, numColmns);
 
-	muonDcysHis.drawIncrement(0);
+	muonDcysHis.passTime(2);
 	wrefresh(muonDcysLy);
 
 	getch();
