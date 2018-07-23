@@ -2,9 +2,12 @@
 
 #include "Menu.h"
 #include "Histograms.h"
+#include "MuonReader.h"
 //#include "DataLy.h"
 
 void createLy (WINDOW *);
+
+void readMuons ();
 
 WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
 
@@ -25,10 +28,36 @@ int main () {
 
 	Histograms muonPerMinutHis(muonPerMinutLy, 10, numColmns);
 
-	muonDcysHis.passTime(2);
+	MuonReader muonReader("/dev/ttyUSB0");
+
+	//------------------------------------------
+	// 			READ
+	//------------------------------------------
+
+		char type;
+
+		while (muonReader.reading) {
+
+			type = muonReader.readUSB();
+
+			if (type == 'M') {
+				muonPerMinutHis.passTime (muonReader.counterS);
+				muonReader.counterS = 0;
+			} else if (type == 'D') {
+				muonDcysHis.drawIncrement(4);
+			} else {
+				break;
+			}
+		}
+
+	//------------------------------------------
+	//				CLEAN ALL
+	//------------------------------------------
 
 	getch();
 
+	muonDcysHis.destroyHistograms();
+	muonPerMinutHis.destroyHistograms();
 	endwin();
 
 }

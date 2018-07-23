@@ -24,13 +24,14 @@ class MuonReader {
 		int counterS;
 		int elapse;
 		int counterMin;
+		bool reading;
 
 		std::string nameOfDevice;
 
 		std::vector<int> cronometer;
     	std::vector<time_t> timer;
 
-    	MuonReader (WINDOW*, std::string );
+    	MuonReader (std::string );
 
     	char readUSB ();
     	int hex2Dec (char*);

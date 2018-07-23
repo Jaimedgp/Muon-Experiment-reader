@@ -5,8 +5,9 @@
 
 #include "MuonReader.h"
 
-MuonReader::MuonReader (WINDOW* ncursesWin, std::string Device = "/dev/ttyUSB0") {
+MuonReader::MuonReader (std::string Device = "/dev/ttyUSB0") {
 
+    bool reading = true;
 	std::string nameOfDevice = Device;
 	time_t clock = time(NULL);
 
