@@ -12,19 +12,22 @@
 class Histograms {
 	public:
 		Histograms(WINDOW* cursesWin, int maxValue, int numColumns); // Constructor
-		~Histograms(); // destructor
+		
+		void destroyHistograms(); // destructor
 
 		void drawIncrement(int i);
 
 		void buildHistograms(WINDOW* cursesWin);
-		void reDraw(void);
+		void reDraw();
 		void passTime (int newTime);
 
+	private:
    		int maxVlue, numclmns;
    		std::vector<int> vlue;
 
+   		std::vector<CDKHISTOGRAM *> eachHistograms;
+
 		CDKSCREEN *cdkscreen;
-   		CDKHISTOGRAM *eachHistograms[];
 };
 
 #endif
