@@ -38,6 +38,8 @@ int main () {
 
 		while (muonReader.reading) {
 
+			muonPerMinutHis.passTime (4);
+
 			type = muonReader.readUSB();
 
 			if (type == 'M') {
