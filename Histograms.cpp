@@ -19,7 +19,7 @@ Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 	//eachHistograms[numclmns];
 
 	for (int i = 0; i < numclmns; ++i ) {
-		vlue.push_back(0);
+		vlue.push_back(2);
 	}
 
 	buildHistograms(cursesWin);
@@ -29,7 +29,7 @@ Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 
 Histograms::~Histograms () {
 
-	for (int i = 0; i < sizeof(eachHistograms); ++i) {
+	for (int i = 0; i < numclmns ; ++i) {
 		// Destroy each histogram
 		destroyCDKHistogram (eachHistograms[i]);
 	}
@@ -90,6 +90,7 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 	    xBorder += clmnwdth + 2;
 
 	}
+
 }
 
 void Histograms::drawIncrement(int i) {
@@ -101,7 +102,7 @@ void Histograms::drawIncrement(int i) {
 
 void Histograms::reDraw() {
 
-	for (int i = 0; i < sizeof(eachHistograms); ++i) {
+	for (int i = 0; i < numclmns ; ++i) {
 
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 	}
@@ -111,12 +112,15 @@ void Histograms::reDraw() {
 
 void Histograms::passTime (int newTime) {
 
-	for (int i = 1; i < vlue.size(); ++i) {
+	for (int i = numclmns ; i >= 0; --i) {
 
 		vlue[i] = vlue[i-1];
 	}
 
 	vlue[0] = newTime;
+
+	
+
 
 	reDraw();
 }
