@@ -30,29 +30,10 @@ int main () {
 
 	MuonReader muonReader("/dev/ttyUSB0");
 
-//------------------------------------------
-// 			READ
-//------------------------------------------
+	while (1) {
 
-    char type;
-
-    while (1) {
-
-        type = muonReader.readUSB();
-
-        if (type == 'M') {
-            muonPerMinutHis.passTime (5);
-            muonReader.counterS = 0;
-        } else if (type == 'D') {
-            muonDcysHis.drawIncrement(4);
-        } else {
-            
-            muonDcysHis.drawIncrement(1);
-        }
-    }
-//------------------------------------------
-//				CLEAN ALL
-//------------------------------------------
+		wprintw(muonPerMinutLy, muonReader.readUSB());
+	}
 
 	getch();
 
