@@ -12,12 +12,8 @@ MuonReader::MuonReader (std::string Device = "/dev/ttyUSB0") {
 	time_t clock = time(NULL);
 
 	counterS = 0;
-}
-
-char MuonReader::readUSB () {
-
-
-	const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
+	
+    const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
     int fd;
 
     /** O_RDWR: Open for reading and writing. The result is undefined if this flag is
@@ -30,17 +26,23 @@ char MuonReader::readUSB () {
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
 
     if (fd < 0) {
-        return 'N';
+       char t = 'N';
     }
 
     char buf[3]; // no idea but maybe the output
     int rdlen; // length of the read value
 
-    rdlen = read(fd, buf, sizeof(buf)); // read the com port
-    rdlen = read(fd, buf, sizeof(buf)); // read the com port
-    int value = hex2Dec (buf);
+}
 
-    return clasifiedData(value);
+char MuonReader::readUSB () {
+
+
+    rdlen = read(fd, buf, sizeof(buf)); // read the com port
+    if (*buf != '\n'){
+        int value = hex2Dec (buf);
+
+        return clasifiedData(value);
+    } else {return 'N';}
 }
 
 char MuonReader::clasifiedData (int elapse) {

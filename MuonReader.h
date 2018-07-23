@@ -36,6 +36,10 @@ class MuonReader {
     	char readUSB ();
     	int hex2Dec (char*);
     	char clasifiedData (int); 
+    private:
+        int fd;
+        char buf[3];
+        int rdlen;
 };
 
 #endif

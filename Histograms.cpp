@@ -121,4 +121,5 @@ void Histograms::passTime (int newTime) {
 
 	vlue[0] = newTime;
 
+    reDraw();
 }
