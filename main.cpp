@@ -111,6 +111,7 @@ void closeLoop (WINDOW *stdscr) {
                 loop = false;
                 break;
             case 6:
+                loop = false;
                 runProgram = false;
                 break;
             default:
