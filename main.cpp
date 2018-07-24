@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <iostream>
+#include <thread>
 #include <stdlib.h>
-#include <iostream>
 #include <fstream> // write and read package
 #include <string.h> // for std::string variables
 #include <fcntl.h> // open port function
@@ -15,7 +15,23 @@
 #include "Histograms.h"
 //#include "DataLy.h"
 
-void createLy (WINDOW *);
+WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
+bool loop;
+
+void createLy (WINDOW *mainWin) {
+
+	muonDcysLy = newwin(2*(LINES)/3, 3*COLS/4, 0, 0);
+	box(muonDcysLy, 0, 0);
+	wrefresh(muonDcysLy);
+
+	muonPerMinutLy = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
+	box(muonPerMinutLy, 0, 0);
+	wrefresh(muonPerMinutLy);
+
+	showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
+	box(showDataLy, 0, 0);
+	wrefresh(showDataLy);
+}
 
 /**
  * convert the hex char to dec integer
@@ -81,7 +97,28 @@ char clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &cloc
     return 'N';
 }
 
-WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
+void closeLoop (WINDOW *stdscr) {
+	Menu mn(stdscr);
+    bool runProgram = true;
+
+    do {
+        int option = mn.choiseMenu();
+        switch(option) {
+            case 1:
+                loop = true;
+                break;
+            case 2:
+                loop = false;
+                break;
+            case 6:
+                runProgram = false;
+                break;
+            default:
+                break;
+        }
+    } while(runProgram);
+}
+
 
 int main () {
 
@@ -92,7 +129,6 @@ int main () {
 
 	createLy(stdscr);
 
-	Menu mn(stdscr);
 
 	Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
 
@@ -127,6 +163,10 @@ int main () {
         std::cerr << "Error opening " << portname << ": " << std::endl;
         return -1;
     }
+    int just200s = 0;
+    loop = true;
+
+    std::thread first (closeLoop, stdscr);
 
     do {
 
@@ -139,7 +179,7 @@ int main () {
             char type = clasifiedData(buf, timer, clock, seconds, counter);
 
             if (type == 'M') {
-                muonPerMinutHis.passTime(counter);
+                muonPerMinutHis.passTime(counter+1);
                 counter = 0;
             } else if (type == 'D') {
                 int elapse = hex2Dec(buf);
@@ -154,28 +194,16 @@ int main () {
 
         }
         rdlen = read(fd, buf, sizeof(buf));
-    } while (1);
+    } while (loop);
+
+    save(timer);
+
     //-------------------------------------------
 
 	getch();
 	muonDcysHis.destroyHistograms();
 	endwin();
 
-
 }
 
 
-void createLy (WINDOW *mainWin) {
-
-	muonDcysLy = newwin(2*(LINES)/3, 3*COLS/4, 0, 0);
-	box(muonDcysLy, 0, 0);
-	wrefresh(muonDcysLy);
-
-	muonPerMinutLy = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
-	box(muonPerMinutLy, 0, 0);
-	wrefresh(muonPerMinutLy);
-
-	showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
-	box(showDataLy, 0, 0);
-	wrefresh(showDataLy);
-}
