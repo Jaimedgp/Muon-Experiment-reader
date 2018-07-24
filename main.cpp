@@ -52,8 +52,9 @@ int main () {
 
     createLy(stdscr);
 
-    closeLoop(stdscr);
+    std::thread first (closeLoop, stdscr);
    
+    first.join();
     save(timer);
 
     //-------------------------------------------
@@ -61,6 +62,8 @@ int main () {
     getch();
     //muonDcysHis.destroyHistograms();
     endwin();
+
+    return 0;
 
 }
 
@@ -156,10 +159,9 @@ int main () {
         do {
             int option = mn.choiseMenu();
             switch(option) {
-                case 1:{
-                    std::thread first(collectData);
-                }
-                    //second.join();
+                case 1:
+                    {std::thread second (collectData);
+                    second.detach();}
                     break;
                 case 2:
                     loop = false;
@@ -222,14 +224,9 @@ int main () {
             if (rdlen > 0) {
                 char type = clasifiedData(buf, seconds, counter);
 
-                if (((time(NULL)-timeinit) % 60) == 0) {
-                    muonPerMinutHis.passTime(counterMin);
-                    counterMin = 0;
-                } else {
-                    counterMin += counter+1;
-                }
 
                 if (type == 'M') {
+                    muonPerMinutHis.passTime(counter);
                     counter = 0;
                 } else if (type == 'D') {
                     int elapse = hex2Dec(buf);
