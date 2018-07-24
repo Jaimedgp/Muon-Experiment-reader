@@ -1,18 +1,90 @@
 #include <ncurses.h>
+#include <iostream>
+#include <stdlib.h>
+#include <iostream>
+#include <fstream> // write and read package
+#include <string.h> // for std::string variables
+#include <fcntl.h> // open port function
+#include <unistd.h> // read port function
+
+#include <vector> // use std::vector
+#include <time.h> // get seconds
+#include <sstream> // converto hex >> dec
 
 #include "Menu.h"
 #include "Histograms.h"
-#include "MuonReader.h"
 //#include "DataLy.h"
 
 void createLy (WINDOW *);
 
-void readMuons ();
+/**
+ * convert the hex char to dec integer
+ *
+ * char* outputPort: hex char
+ */
+int hex2Dec (char* outputPort) {
+
+    int number;
+    std::stringstream hexadecimal;
+
+    hexadecimal << std::hex << outputPort;
+    hexadecimal >> number;
+
+    return number*40;
+}
+
+/**
+ * Save the Data into a file
+ *
+ */
+void save(std::vector<int> muonDecay) {
+
+    std::ofstream outputFile("Data.txt"); // open the output File
+
+    for (std::vector<int>::iterator it = muonDecay.begin(); it != muonDecay.end(); ++it) {
+        outputFile << *it << "\n";
+    }
+
+    outputFile.close();
+}
+
+/**
+ * Clasified the data depends on the type of event it is
+ *
+ */
+
+char clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &clock, time_t &seconds, int &counter) {
+
+    
+    int number = hex2Dec(buf); // convert hex to dec
+
+    // 40000 means not muon decay
+    if (number == 40000) {
+
+        // if events occured in less than a second
+        if (seconds == time(NULL)){
+            counter++;
+        } else {
+
+            timer.push_back(number+counter);
+            clock.push_back(seconds);
+
+            seconds = time(NULL);
+            return 'M';
+        }
+    } else { // Muon decay
+        timer.push_back(number);
+        clock.push_back(seconds);
+        return 'D';
+    }
+
+    return 'N';
+}
 
 WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
 
 int main () {
-	
+
 	noecho();
 	initscr();			
 	cbreak();
@@ -22,26 +94,76 @@ int main () {
 
 	Menu mn(stdscr);
 
-	Histograms muonDcysHis(muonDcysLy, 10, 20);
+	Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
 
 	int numColmns = (COLS-(COLS/15))/4;
 
 	Histograms muonPerMinutHis(muonPerMinutLy, 10, numColmns);
 
-	MuonReader muonReader("/dev/ttyUSB0");
+    //-------------------------------------------
+    
+    std::string nameOfDevice = "/dev/ttyUSB0";
 
-	while (1) {
+    std::vector<int> timer;
+    std::vector<time_t> clock;
+    time_t seconds = time (NULL);
+    
+    time_t timeinit = time(NULL);
+    int counter = 0;
 
-		wprintw(muonPerMinutLy, muonReader.readUSB());
-	}
+    const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
+    int fd;
+
+    /** O_RDWR: Open for reading and writing. The result is undefined if this flag is
+    *  O_NOCTTY: If set and path identifies a terminal device, open() shall not cause the terminal
+    *           device to become the controlling terminal for the process. If path does not identify
+    *           a terminal device, O_NOCTTY shall be ignored.
+    *  O_SYNC:  Write I/O operations on the file descriptor shall complete as defined by synchronized
+    *           I/O file integrity completion
+    */
+    fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
+
+    if (fd < 0) {
+        std::cerr << "Error opening " << portname << ": " << std::endl;
+        return -1;
+    }
+
+    do {
+
+        char buf[3];
+        int rdlen;
+
+        rdlen = read(fd, buf, sizeof(buf));
+
+        if (rdlen > 0) {
+            char type = clasifiedData(buf, timer, clock, seconds, counter);
+
+            if (type == 'M') {
+                muonPerMinutHis.passTime(counter);
+                counter = 0;
+            } else if (type == 'D') {
+                int elapse = hex2Dec(buf);
+                for (int i = 1; i <=20; ++i) {
+                    if (elapse < 600*i) {
+                        muonDcysHis.drawIncrement(i);
+                        break;
+                    }
+                }
+            } 
+
+
+        }
+        rdlen = read(fd, buf, sizeof(buf));
+    } while (1);
+    //-------------------------------------------
 
 	getch();
-
 	muonDcysHis.destroyHistograms();
-	muonPerMinutHis.destroyHistograms();
 	endwin();
 
+
 }
+
 
 void createLy (WINDOW *mainWin) {
 
