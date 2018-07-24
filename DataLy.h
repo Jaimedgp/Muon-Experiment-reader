@@ -9,9 +9,11 @@ class DataLy {
 
 		void printElapsTime(int);
 		void printNumMuon(int);
-		void printMuonRate(double);
-		void printMuonDcy(int);
-		void printDcyRate(double);
+		void printMuonRate();
+		void printMuonDcy();
+		void printDcyRate();
+
+        int time, numberMuons, muonDcy;
 
 
 	private:

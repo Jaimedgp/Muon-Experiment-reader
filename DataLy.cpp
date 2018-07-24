@@ -2,6 +2,11 @@
 
 DataLy::DataLy (WINDOW *cursesWin) {
 
+    time = 0;
+    numberMuons = 0;
+    muonDcy = 0;
+
+
 	cursesWin = cursesWin;
 
 	int x;
@@ -21,30 +26,47 @@ DataLy::DataLy (WINDOW *cursesWin) {
     mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel, "Muon Decays:");
     mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel, "Decay Rate (per minute):");
 
+	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", 0);
+	mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", 0);
+	mvwprintw(cursesWin, y+2*yInterval, xBrdrLabel+30, "%.2f", 0);
+	mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel+30, "%d", 0);
+	mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel+30, "%.2f", 0);
+
     wrefresh(cursesWin);
 }
 
-void DataLy::printElapsTime(int time) {
+void DataLy::printElapsTime(int timer) {
 
+    time = timer;
 	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", time);
+    wrefresh(cursesWin);
 }
 
 void DataLy::printNumMuon(int numMuon) {
 
-	mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", numMuon);
+    numberMuons += numMuon;
+	mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", numberMuons);
+    wrefresh(cursesWin);
 }
 
-void DataLy::printMuonRate(double muonRate) {
+void DataLy::printMuonRate() {
+
+    double muonRate = (double) numberMuons / time;
 
 	mvwprintw(cursesWin, y+2*yInterval, xBrdrLabel+30, "%.2f", muonRate);
+    wrefresh(cursesWin);
 }
 
-void DataLy::printMuonDcy(int muonDcy) {
+void DataLy::printMuonDcy() {
+    ++muonDcy;
 
 	mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel+30, "%d", muonDcy);
+    wrefresh(cursesWin);
 }
 
-void DataLy::printDcyRate(double dcyRate) {
+void DataLy::printDcyRate() {
+    double dcyRate = (double) muonDcy / time;
 
 	mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel+30, "%.2f", dcyRate);
+    wrefresh(cursesWin);
 }
