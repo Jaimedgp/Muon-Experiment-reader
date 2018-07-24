@@ -13,6 +13,7 @@
 
 #include "Menu.h"
 #include "Histograms.h"
+#include "DataLy.h"
 //#include "DataLy.h"
 
 //-----------------------------------------------------------------
@@ -184,6 +185,8 @@ int main () {
         int numColmns = (COLS-(COLS/15))/4;
 
         Histograms muonPerMinutHis(muonPerMinutLy, 20, numColmns);
+
+        DataLy dataLy(stdscr);
 
         //-------------------------------------------
         
