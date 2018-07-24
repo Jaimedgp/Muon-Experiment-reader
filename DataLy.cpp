@@ -20,6 +20,8 @@ DataLy::DataLy (WINDOW *cursesWin) {
     mvwprintw(cursesWin, y+2*yInterval, xBrdrLabel, "Muon Rate (per second):");
     mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel, "Muon Decays:");
     mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel, "Decay Rate (per minute):");
+
+    wrefresh(cursesWin);
 }
 
 void DataLy::printElapsTime(int time) {
