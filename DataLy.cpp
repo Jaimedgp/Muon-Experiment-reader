@@ -1,13 +1,13 @@
 #include "DataLy.h"
 
-DataLy::DataLy (WINDOW *cursesWin) {
+DataLy::DataLy (WINDOW *mainWin) {
 
     time = 0;
     numberMuons = 0;
     muonDcy = 0;
 
 
-	cursesWin = cursesWin;
+	cursesWin = mainWin;
 
 	int x;
 	getmaxyx(cursesWin, y, x);
@@ -26,19 +26,13 @@ DataLy::DataLy (WINDOW *cursesWin) {
     mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel, "Muon Decays:");
     mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel, "Decay Rate (per minute):");
 
-	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", 0);
-	mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", 0);
-	mvwprintw(cursesWin, y+2*yInterval, xBrdrLabel+30, "%.2f", 0);
-	mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel+30, "%d", 0);
-	mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel+30, "%.2f", 0);
-
     wrefresh(cursesWin);
 }
 
 void DataLy::printElapsTime(int timer) {
 
     time = timer;
-	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", time);
+	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", 5);
     wrefresh(cursesWin);
 }
 

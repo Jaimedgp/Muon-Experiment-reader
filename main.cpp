@@ -189,6 +189,11 @@ int main () {
 
         DataLy dataLy(showDataLy);
 
+        dataLy.printElapsTime(5);
+        wrefresh(showDataLy);
+
+        sleep(2);
+
         //-------------------------------------------
         
         std::string nameOfDevice = "/dev/ttyUSB0";

@@ -7,8 +7,8 @@ class DataLy {
 	public:
 		DataLy(WINDOW *);
 
-		void printElapsTime(int);
-		void printNumMuon(int);
+		void printElapsTime(int );
+		void printNumMuon(int );
 		void printMuonRate();
 		void printMuonDcy();
 		void printDcyRate();
@@ -16,7 +16,7 @@ class DataLy {
         int time, numberMuons, muonDcy;
 
 
-	private:
+	//private:
 		WINDOW *cursesWin;
 
 		int xBrdrLabel, y, yInterval;
