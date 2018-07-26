@@ -97,7 +97,9 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 void Histograms::drawIncrement(int i) {
 
-	vlue[i] = vlue[i] + 1;
+	++vlue[i];
+    if (vlue[i] >=  maxVlue) maxVlue = vlue[i]+1;
+
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 	refreshCDKScreen (cdkscreen);
 }
@@ -120,6 +122,8 @@ void Histograms::passTime (int newTime) {
 	}
 
 	vlue[0] = newTime;
+
+    if (newTime >= maxVlue) maxVlue = newTime+1;
 
     reDraw();
 }
