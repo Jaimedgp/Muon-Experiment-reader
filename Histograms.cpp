@@ -98,7 +98,10 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 void Histograms::drawIncrement(int i) {
 
 	++vlue[i];
-    if (vlue[i] >=  maxVlue) maxVlue = vlue[i]+1;
+    if (vlue[i] >=  maxVlue) {
+        maxVlue = vlue[i]+1;
+        reDraw();
+    }
 
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 	refreshCDKScreen (cdkscreen);
