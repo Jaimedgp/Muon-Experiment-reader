@@ -60,8 +60,6 @@ int main () {
 
     //-------------------------------------------
 
-    getch();
-    //muonDcysHis.destroyHistograms();
     endwin();
 
     return 0;
@@ -185,7 +183,7 @@ int main () {
 
         int numColmns = (COLS-(COLS/15))/4;
 
-        Histograms muonPerMinutHis(muonPerMinutLy, 20, numColmns);
+        Histograms muonPerMinutHis(muonPerMinutLy, 200, numColmns);
 
         DataLy dataLy(showDataLy);
 
@@ -234,7 +232,12 @@ int main () {
 
                 if (type == 'M') {
                     ++counter;
-                    muonPerMinutHis.passTime(counter);
+                    counterMin += counter;
+    
+                    if ( (elapsetime % 60) == 0) {
+                        muonPerMinutHis.passTime(counterMin);
+                        counterMin = 0;
+                    }
 
                     dataLy.printNumMuon(counter);
                     dataLy.printMuonRate();
