@@ -56,7 +56,6 @@ int main () {
     std::thread first (closeLoop, stdscr);
    
     first.join();
-    save(timer);
 
     //-------------------------------------------
 
@@ -106,12 +105,12 @@ int main () {
      * Save the Data into a file
      *
      */
-    void save(std::vector<int> muonDecay) {
+    void save() {
 
         std::ofstream outputFile("Data.txt"); // open the output File
 
-        for (std::vector<int>::iterator it = muonDecay.begin(); it != muonDecay.end(); ++it) {
-            outputFile << *it << "\n";
+        for (int i=0; i < timer.size(); ++i) {
+            outputFile << timer[i] << "\t" << clocks[i] << "\n";
         }
 
         outputFile.close();
@@ -165,6 +164,9 @@ int main () {
                     break;
                 case 2:
                     loop = false;
+                    break;
+                case 4:
+                    save();
                     break;
                 case 6:
                     loop = false;

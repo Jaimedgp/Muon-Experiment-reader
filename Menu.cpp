@@ -13,8 +13,8 @@
 
 char *choices[] = {"Start",
 				"Pause",
-				"Fit",
-				"View Raw Data",
+				"Reset",
+				"Save",
 				"Configure",
 				"Quit",
 };
