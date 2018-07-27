@@ -32,7 +32,12 @@ DataLy::DataLy (WINDOW *mainWin) {
 void DataLy::printElapsTime(int timer) {
 
     time = timer;
-	mvwprintw(cursesWin, y, xBrdrLabel+30, "%d", time);
+    int hour = time/3600;
+    int restHour = time % 3600;
+    int minut = restHour / 60;
+    int second = restHour % 60;
+
+	mvwprintw(cursesWin, y, xBrdrLabel+30, "%02d:%02d:%02d",hour, minut, second);
     wrefresh(cursesWin);
 }
 
