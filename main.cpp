@@ -50,6 +50,7 @@ int main () {
     initscr();          
     cbreak();
     refresh();
+    curs_set(0);
 
     createLy(stdscr);
 
@@ -181,6 +182,7 @@ int main () {
 
     void collectData () {
 
+
         Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
 
         int numColmns = (COLS-(COLS/15))/4;
@@ -237,7 +239,6 @@ int main () {
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
-                        wprintw(muonPerMinutLy, "%d", counterMin);
                         muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
@@ -263,5 +264,4 @@ int main () {
             }
             rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
-
     }
