@@ -237,6 +237,7 @@ int main () {
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
+                        wprintw(muonPerMinutLy, "%d", counterMin);
                         muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
@@ -252,7 +253,7 @@ int main () {
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
                         if (elapse < 600*i) {
-                            muonDcysHis.drawIncrement(i);
+                            muonDcysHis.drawIncrement(i-1);
                             break;
                         }
                     }
