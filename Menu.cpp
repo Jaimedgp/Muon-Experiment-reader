@@ -89,8 +89,8 @@ int Menu::choiseMenu() {
 		       		} else {
 		           		
 		           		--highlight;
-		       			break;
 		       		}
+                    break;
 		       	
 		       	case KEY_DOWN:
 		       		if (highlight == n_choices) {
@@ -99,8 +99,8 @@ int Menu::choiseMenu() {
 		       		} else {
 		           		
 		           		++highlight;
-		       			break;
 		       		}
+                    break;
 		       	
 		       	case 10:
 		       		choice = highlight;
