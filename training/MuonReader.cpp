@@ -1,41 +1,18 @@
 /**
- *  re-write the MounReader script of Pablo Martinez Ruiz del Arbol
  *
- * @author Jaimedgp
+ *
  */
 
-#include <iostream>
-#include <stdio.h>
-#include <fstream> // write and read package
-#include <string.h> // for std::string variables
-#include <fcntl.h> // open port function
-#include <unistd.h> // read port function
+#include "MuonReader.h"
 
-#include <vector> // use std::vector
-#include <time.h> // get seconds
-#include <sstream> // converto hex >> dec
+MuonReader::MuonReader (std::string Device = "/dev/ttyUSB0") {
 
-//------------------------------------------
-//      DECLARE FUNCTIONS
-//------------------------------------------
+    bool reading = true;
+	std::string nameOfDevice = Device;
+	time_t clock = time(NULL);
 
-int hex2Dec (char*);
-
-void save(std::vector<int>);
-
-void clasifiedData(char *, std::vector<int> &, std::vector<time_t> &, time_t &, int &);
-
-//-----------------------------------------------------------
-//          
-//-----------------------------------------------------------
-
-int main (int argc, char **argv) {
-
-    std::string nameOfDevice = "/dev/ttyUSB0";
-    std::vector<int> timer;
-    std::vector<time_t> clock;
-
-
+	counterS = 0;
+	
     const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
     int fd;
 
@@ -49,39 +26,52 @@ int main (int argc, char **argv) {
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
 
     if (fd < 0) {
-        std::cerr << "Error opening " << portname << ": " << std::endl;
-        return -1;
+       char t = 'N';
     }
 
-    //bool verdadero = true;
-    time_t seconds = time (NULL); // get the seconds since January 1, 1970
-    int counter = 0; // number of events with no decay in a second
+    char buf[3]; // no idea but maybe the output
+    int rdlen; // length of the read value
+
+}
+
+char MuonReader::readUSB () {
 
 
-    /* simple noncanonical input */
-    //do {
-    for (int i=1; i<200; i++) {
-        char buf[3]; // no idea but maybe the output
-        int rdlen; // length of the read value
+    rdlen = read(fd, buf, sizeof(buf)); // read the com port
+    if (*buf != '\n'){
+        int value = hex2Dec (buf);
 
-        rdlen = read(fd, buf, sizeof(buf)); // read the com port
+        return clasifiedData(value);
+    } else {return 'N';}
+}
 
-        if (rdlen > 0) {
+char MuonReader::clasifiedData (int elapse) {
 
-            clasifiedData(buf, timer, clock, seconds, counter);
+	char type = 'N';
 
-            rdlen = read(fd, buf, sizeof(buf));
+	// 40000 means not muon decay
+    if (elapse == 40000) {
 
-            //verdadero = false;
+        // if events occured in less than a second
+        if (clock == time(NULL)){
+            counterS++;
+        } else {
+            cronometer.push_back(elapse+counterS);
+            timer.push_back(clock);
 
+            type = 'M';
+            clock = time(NULL);
+            //counter = 0;
         }
+    } else { // Muon decay
+        cronometer.push_back(elapse);
+        timer.push_back(clock);
 
-    } //while (!verdadero);
-    
-    save(timer);
+        type = 'D';
+        clock = time(NULL);
+    }
 
-    return 0;
-
+    return type;
 }
 
 /**
@@ -89,7 +79,7 @@ int main (int argc, char **argv) {
  *
  * char* outputPort: hex char
  */
-int hex2Dec (char* outputPort) {
+int MuonReader::hex2Dec (char* outputPort) {
 
     int number;
     std::stringstream hexadecimal;
@@ -98,51 +88,4 @@ int hex2Dec (char* outputPort) {
     hexadecimal >> number;
 
     return number*40;
-}
-
-/**
- * Save the Data into a file
- *
- */
-void save(std::vector<int> muonDecay) {
-
-    std::ofstream outputFile("Data.txt"); // open the output File
-
-    for (std::vector<int>::iterator it = muonDecay.begin(); it != muonDecay.end(); ++it) {
-        outputFile << *it << "\n";
-    }
-
-    outputFile.close();
-}
-
-/**
- * Clasified the data depends on the type of event it is
- *
- */
-
-void clasifiedData(char *buf, std::vector<int> &timer, std::vector<time_t> &clock, time_t &seconds, int &counter) {
-
-    
-    int number = hex2Dec(buf); // convert hex to dec
-
-    // 40000 means not muon decay
-    if (number == 40000) {
-
-        // if events occured in less than a second
-        if (seconds == time(NULL)){
-            counter++;
-        } else {
-            timer.push_back(number+counter);
-            clock.push_back(seconds);
-
-            seconds = time(NULL);
-            counter = 0;
-        }
-    } else { // Muon decay
-        timer.push_back(number);
-        clock.push_back(seconds);
-
-        seconds = time(NULL);
-    }
-
 }
