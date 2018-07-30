@@ -193,7 +193,6 @@ int main () {
         //-------------------------------------------
         
         std::string nameOfDevice = "/dev/ttyUSB0";
-        std::ofstream File("RawData.txt"); // open the output File
 
 
         time_t seconds = time (NULL);
@@ -228,7 +227,6 @@ int main () {
             rdlen = read(fd, buf, sizeof(buf));
 
             if (rdlen > 0 && time(NULL) != timeinit) {
-                File << buf << "\n";
 
                 char type = clasifiedData(buf, seconds, counter);
 
@@ -265,5 +263,4 @@ int main () {
             }
             rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
-        File.close();
     }
