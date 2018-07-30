@@ -106,8 +106,16 @@ int main () {
      *
      */
     void save() {
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
+        int year = 1900 + ltm->tm_year;
+        int month = 1 + ltm->tm_mon;
+        int day = ltm->tm_mday;
 
-        std::ofstream outputFile("Data.txt"); // open the output File
+        char Filename[100];
+        sprintf(Filename, "Data_%d-%d-%d.txt", day, month, year);
+
+        std::ofstream outputFile(Filename); // open the output File
 
         for (int i=0; i < timer.size(); ++i) {
             outputFile << timer[i] << "\t" << clocks[i] << "\n";
