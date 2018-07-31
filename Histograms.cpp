@@ -42,35 +42,30 @@ void Histograms::destroyHistograms () {
 
 void Histograms::buildHistograms(WINDOW* cursesWin) {
 
-	/*for (int i = 0; i < sizeof(vlue) ; ++i){
-		wprintw(cursesWin, "%d \n", vlue[i]);
-	}*/
-
 	int x, y;
 
 	getmaxyx(cursesWin, y, x);
 
 
-	int xBorder = x/15;
-	int clmnwdth;
+	xBorder = x/15;
 
 	int Pixl = x-xBorder- 2*numclmns;
 
 	if (numclmns > Pixl) { 
 		numclmns = Pixl;
-		clmnwdth = 1;
+        clmnwdth = 1;
 	} else {
         clmnwdth = Pixl/(numclmns);
 	}
 
-    int clmnhght = 4*(y/5);
+    clmnhght = 4*(y/5);
     while (clmnhght+3 >= y) clmnhght -= 1;
 
 	for (int i = 0; i < numclmns ; ++i) {
 
 		eachHistograms.push_back (newCDKHistogram (cdkscreen,
-						    xBorder,  //position of leftup corner X
-						    CENTER,                                 // position of left corner Y
+						    xBorder,  // position of leftup corner X
+						    CENTER,   // position of left corner Y
 						    clmnhght, // height of the column
 						    clmnwdth, // width of the column
 						    VERTICAL, "", false, false));
@@ -86,8 +81,6 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
-
-		//wprintw(cursesWin, "%d \n", vlue[i]);
 
 	    xBorder += clmnwdth + 2;
 
@@ -108,10 +101,17 @@ void Histograms::drawIncrement(int i) {
 }
 
 void Histograms::reDraw() {
+    int xPos = xBorder - clmnwdth/2;
 
-	for (int i = 0; i < numclmns; ++i) {
+	for (int i = numclmns - 1; i >= 0; --i) {
 
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
+
+        char         *mesg[1];
+        mesg[0] = "</R>ret<!R>";
+        CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
+
+        xPos -= clmnwdth + 2;
 	}
 
 	refreshCDKScreen (cdkscreen);

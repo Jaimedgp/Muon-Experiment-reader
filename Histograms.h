@@ -21,7 +21,10 @@ class Histograms {
 		void reDraw();
 		void passTime (int newTime);
 
+        int JustTry();
+
 	private:
+        int xBorder, clmnhght, clmnwdth;
    		int maxVlue, numclmns;
    		std::vector<int> vlue;
 
