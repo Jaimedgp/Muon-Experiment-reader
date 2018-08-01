@@ -39,7 +39,6 @@ void Histograms::destroyHistograms () {
 	endCDK ();
 }
 
-
 void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 	int x, y;
@@ -85,7 +84,6 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 	    xBorder += clmnwdth + 2;
 
 	}
-
 }
 
 void Histograms::drawIncrement(int i) {
@@ -97,27 +95,54 @@ void Histograms::drawIncrement(int i) {
     }
 
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
+	drawValues();
 	refreshCDKScreen (cdkscreen);
 }
 
 void Histograms::reDraw() {
-    int xPos = xBorder - clmnwdth/2;
 
-	for (int i = numclmns - 1; i >= 0; --i) {
+	for (int i = 0; i < numclmns; ++i) {
 
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
+    }
 
-        char         *mesg[1];
+    drawValues();
+    refreshCDKScreen (cdkscreen);
+}
+
+void Histograms::passTime (int newTime) {
+
+    for (int i = numclmns; i >= 0; --i) {
+
+        vlue[i] = vlue[i-1];
+    }
+
+    vlue[0] = newTime;
+
+    if (newTime >= maxVlue) maxVlue = newTime+1;
+
+    reDraw();
+}
+
+void Histograms::drawValues() {
+
+    int xPos = xBorder - clmnwdth/2;
+
+    for (int i = numclmns - 1; i >= 0; --i) {
+
+    	char *mesg[1];
 
         if (vlue[i] > 0) {
             char number[32];
-            sprintf(number, "%d", vlue[i]);
             char text[32] = "</R>";
-            strcat(text, number);
             char close[32] = "<!R>";
+
+            sprintf(number, "%d", vlue[i]);
+            strcat(text, number);
             strcat(text, close);        
 
             mesg[0] = text;
+
         } else {
             char text[32] = " ";
 
@@ -129,19 +154,5 @@ void Histograms::reDraw() {
         xPos -= clmnwdth + 2;
     }
 
-        refreshCDKScreen (cdkscreen);
-    }
-
-    void Histograms::passTime (int newTime) {
-
-        for (int i = numclmns; i >= 0; --i) {
-
-            vlue[i] = vlue[i-1];
-        }
-
-        vlue[0] = newTime;
-
-        if (newTime >= maxVlue) maxVlue = newTime+1;
-
-        reDraw();
-    }
+    refreshCDKScreen (cdkscreen);
+}
