@@ -233,7 +233,7 @@ int main () {
                 char type = clasifiedData(buf, seconds, counter);
 
                 int elapsetime = seconds - timeinit;
-                //dataLy.printElapsTime(elapsetime);
+                dataLy.printElapsTime(elapsetime);
 
                 if (type == 'M') {
                     ++counter;
@@ -254,8 +254,8 @@ int main () {
 
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
-                        if (elapse < 600*i) {
-                            muonDcysHis.drawIncrement(i-1);
+                        if (elapse < 1000*i) {
+                            //muonDcysHis.drawIncrement(i-1);
                             break;
                         }
                     }
