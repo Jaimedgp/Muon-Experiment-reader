@@ -107,8 +107,16 @@ void Histograms::reDraw() {
 
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 
+        char number[32];
+        sprintf(number, "%d", vlue[i]);
+        char text[32] = "</R>";
+        strcat(text, number);
+        char close[32] = "<!R>";
+        strcat(text, close);        
+
         char         *mesg[1];
-        mesg[0] = "</R>ret<!R>";
+        mesg[0] = text;
+
         CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
 
         xPos -= clmnwdth + 2;
