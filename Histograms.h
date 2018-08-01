@@ -20,8 +20,7 @@ class Histograms {
 		void buildHistograms(WINDOW* cursesWin);
 		void reDraw();
 		void passTime (int newTime);
-
-        int JustTry();
+		void drawValues();
 
 	private:
         int xBorder, clmnhght, clmnwdth;
