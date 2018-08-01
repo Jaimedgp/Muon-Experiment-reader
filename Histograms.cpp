@@ -106,7 +106,6 @@ void Histograms::reDraw() {
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
     }
 
-    drawValues();
     refreshCDKScreen (cdkscreen);
 }
 
