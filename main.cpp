@@ -233,19 +233,19 @@ int main () {
                 char type = clasifiedData(buf, seconds, counter);
 
                 int elapsetime = seconds - timeinit;
-                dataLy.printElapsTime(elapsetime);
+                //dataLy.printElapsTime(elapsetime);
 
                 if (type == 'M') {
                     ++counter;
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
-                        muonPerMinutHis.passTime(counterMin);
+                        //muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
 
-                    dataLy.printNumMuon(counter);
-                    dataLy.printMuonRate();
+                    //dataLy.printNumMuon(counter);
+                    //dataLy.printMuonRate();
 
                     counter = 0;
                 } else if (type == 'D') {
