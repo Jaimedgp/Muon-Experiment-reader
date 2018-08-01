@@ -107,34 +107,41 @@ void Histograms::reDraw() {
 
 		setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
 
-        char number[32];
-        sprintf(number, "%d", vlue[i]);
-        char text[32] = "</R>";
-        strcat(text, number);
-        char close[32] = "<!R>";
-        strcat(text, close);        
-
         char         *mesg[1];
-        mesg[0] = text;
+
+        if (vlue[i] > 0) {
+            char number[32];
+            sprintf(number, "%d", vlue[i]);
+            char text[32] = "</R>";
+            strcat(text, number);
+            char close[32] = "<!R>";
+            strcat(text, close);        
+
+            mesg[0] = text;
+        } else {
+            char text[32] = " ";
+
+            mesg[0] = text;
+        }
 
         CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
 
         xPos -= clmnwdth + 2;
-	}
+    }
 
-	refreshCDKScreen (cdkscreen);
-}
+        refreshCDKScreen (cdkscreen);
+    }
 
-void Histograms::passTime (int newTime) {
+    void Histograms::passTime (int newTime) {
 
-	for (int i = numclmns; i >= 0; --i) {
+        for (int i = numclmns; i >= 0; --i) {
 
-		vlue[i] = vlue[i-1];
-	}
+            vlue[i] = vlue[i-1];
+        }
 
-	vlue[0] = newTime;
+        vlue[0] = newTime;
 
-    if (newTime >= maxVlue) maxVlue = newTime+1;
+        if (newTime >= maxVlue) maxVlue = newTime+1;
 
-    reDraw();
-}
+        reDraw();
+    }
