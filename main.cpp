@@ -225,9 +225,11 @@ int main () {
             char buf[3];
             int rdlen;
 
-            rdlen = read(fd, buf, sizeof(buf));
+            rdlen = read(fd, buf, 3);
 
-            if (rdlen > 0 && time(NULL) != timeinit) {
+
+            if (rdlen > 0 && time(NULL) != timeinit && isdigit(buf[0])) {
+                
                 File << buf << "\n";
 
                 char type = clasifiedData(buf, seconds, counter);
@@ -240,12 +242,12 @@ int main () {
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
-                        //muonPerMinutHis.passTime(counterMin);
+                        muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
 
-                    //dataLy.printNumMuon(counter);
-                    //dataLy.printMuonRate();
+                    dataLy.printNumMuon(counter);
+                    dataLy.printMuonRate();
 
                     counter = 0;
                 } else if (type == 'D') {
@@ -255,7 +257,7 @@ int main () {
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
                         if (elapse < 1000*i) {
-                            //muonDcysHis.drawIncrement(i-1);
+                            muonDcysHis.drawIncrement(i-1);
                             break;
                         }
                     }
@@ -263,7 +265,7 @@ int main () {
 
 
             }
-            rdlen = read(fd, buf, sizeof(buf));
+            //rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
         File.close();
     }
