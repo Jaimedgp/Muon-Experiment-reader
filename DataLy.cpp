@@ -44,7 +44,13 @@ void DataLy::printElapsTime(int timer) {
 void DataLy::printNumMuon(int numMuon) {
 
     numberMuons += numMuon;
-	mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", numberMuons);
+    if (numberMuons < 1000) {
+        mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%d", numberMuons);
+    } else {
+        double kiloMuon = (double) numberMuons/1000;
+        mvwprintw(cursesWin, y+yInterval, xBrdrLabel+30, "%.2fk", kiloMuon);
+    }
+
     wrefresh(cursesWin);
 }
 
