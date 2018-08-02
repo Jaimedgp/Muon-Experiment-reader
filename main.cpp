@@ -6,6 +6,7 @@
 #include <string.h> // for std::string variables
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
+#include <ctype.h>
 
 #include <vector> // use std::vector
 #include <time.h> // get seconds
@@ -92,13 +93,17 @@ int main () {
      */
     int hex2Dec (char* outputPort) {
 
-        int number;
-        std::stringstream hexadecimal;
+        if (isxdigit(outputPort[0])){
+            int number;
+            std::stringstream hexadecimal;
 
-        hexadecimal << std::hex << outputPort;
-        hexadecimal >> number;
+            hexadecimal << std::hex << outputPort;
+            hexadecimal >> number;
 
-        return number*40;
+            return number*40;
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -125,6 +130,10 @@ int main () {
 
         
         int number = hex2Dec(buf); // convert hex to dec
+
+        if (number == -1){
+            return 'N';
+        }
 
         // 40000 means not muon decay
         if (number == 40000) {
@@ -234,6 +243,7 @@ int main () {
 
                 char type = clasifiedData(buf, seconds, counter);
 
+                seconds = time(NULL);
                 int elapsetime = seconds - timeinit;
                 dataLy.printElapsTime(elapsetime);
 
@@ -242,22 +252,22 @@ int main () {
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
-                        muonPerMinutHis.passTime(counterMin);
+                        //muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
 
                     dataLy.printNumMuon(counter);
-                    dataLy.printMuonRate();
+                    //dataLy.printMuonRate();
 
                     counter = 0;
                 } else if (type == 'D') {
-                    dataLy.printMuonDcy();
-                    dataLy.printDcyRate();
+                    //dataLy.printMuonDcy();
+                    //dataLy.printDcyRate();
 
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
                         if (elapse < 1000*i) {
-                            muonDcysHis.drawIncrement(i-1);
+                            //muonDcysHis.drawIncrement(i-1);
                             break;
                         }
                     }
@@ -265,7 +275,6 @@ int main () {
 
 
             }
-            //rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
         File.close();
     }
