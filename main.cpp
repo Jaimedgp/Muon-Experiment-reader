@@ -232,9 +232,9 @@ int main () {
             char buf[3];
             int rdlen;
 
-            rdlen = read(fd, buf, sizeof(buf));
+            rdlen = read(fd, buf, 3);
 
-            if (rdlen > 0 && time(NULL) != timeinit) {
+            if (rdlen > 0 && time(NULL) != timeinit && isdigit(buf[0])) {
 
                 char type = clasifiedData(buf, seconds, counter);
 
@@ -260,7 +260,7 @@ int main () {
 
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
-                        if (elapse < 600*i) {
+                        if (elapse < 1000*i) {
                             muonDcysHis.drawIncrement(i-1);
                             break;
                         }
@@ -269,6 +269,6 @@ int main () {
 
 
             }
-            rdlen = read(fd, buf, sizeof(buf));
+            //rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
     }
