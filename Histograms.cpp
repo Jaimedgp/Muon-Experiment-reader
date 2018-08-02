@@ -87,8 +87,6 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
 
-		//wprintw(cursesWin, "%d \n", vlue[i]);
-
 	    xBorder += clmnwdth + 2;
 
 	}
