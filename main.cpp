@@ -258,12 +258,10 @@ int main () {
                     counterMin += counter;
     
                     dataLy.printNumMuon(counter);
-                    dataLy.printMuonRate();
 
                     counter = 0;
                 } else if (type == 'D') {
                     dataLy.printMuonDcy();
-                    dataLy.printDcyRate();
 
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
@@ -273,6 +271,9 @@ int main () {
                         }
                     }
                 } 
+
+                dataLy.printMuonRate();
+                dataLy.printDcyRate();
 
                 if ( (elapsetime % 60) == 0) {
                     muonPerMinutHis.passTime(counterMin);
