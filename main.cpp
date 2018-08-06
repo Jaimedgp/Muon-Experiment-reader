@@ -93,6 +93,7 @@ int main () {
      */
     int hex2Dec (char* outputPort) {
 
+        /*
         if (isxdigit(outputPort[0])){
             int number;
             std::stringstream hexadecimal;
@@ -104,6 +105,8 @@ int main () {
         } else {
             return -1;
         }
+        */
+        return 40000;
     }
 
     /**
@@ -129,12 +132,15 @@ int main () {
     char clasifiedData(char *buf, time_t &seconds, int &counter) {
 
         
-        int number = hex2Dec(buf); // convert hex to dec
+        //int number = hex2Dec(buf); // convert hex to dec
 
+        /*
         if (number == -1){
             return 'N';
         }
+        */
 
+        /*
         // 40000 means not muon decay
         if (number == 40000) {
 
@@ -154,6 +160,7 @@ int main () {
             clocks.push_back(seconds);
             return 'D';
         }
+        */
 
         return 'N';
     }
@@ -241,39 +248,40 @@ int main () {
                 
                 File << buf << "\n";
 
-                char type = clasifiedData(buf, seconds, counter);
+                //char type = clasifiedData(buf, seconds, counter);
 
                 seconds = time(NULL);
-                int elapsetime = seconds - timeinit;
+                long int elapsetime = seconds - timeinit;
                 dataLy.printElapsTime(elapsetime);
 
+                /*
                 if (type == 'M') {
                     ++counter;
                     counterMin += counter;
     
                     if ( (elapsetime % 60) == 0) {
-                        //muonPerMinutHis.passTime(counterMin);
+                        muonPerMinutHis.passTime(counterMin);
                         counterMin = 0;
                     }
 
                     dataLy.printNumMuon(counter);
-                    //dataLy.printMuonRate();
+                    dataLy.printMuonRate();
 
                     counter = 0;
                 } else if (type == 'D') {
-                    //dataLy.printMuonDcy();
-                    //dataLy.printDcyRate();
+                    dataLy.printMuonDcy();
+                    dataLy.printDcyRate();
 
                     int elapse = hex2Dec(buf);
                     for (int i = 1; i <=20; ++i) {
                         if (elapse < 1000*i) {
-                            //muonDcysHis.drawIncrement(i-1);
+                            muonDcysHis.drawIncrement(i-1);
                             break;
                         }
                     }
                 } 
 
-
+                */
             }
         } while (loop);
         File.close();
