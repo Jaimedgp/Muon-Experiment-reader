@@ -54,9 +54,11 @@ int main () {
 
     createLy(stdscr);
 
-    std::thread first (closeLoop, stdscr);
+    closeLoop(stdscr);
+
+    //ERROR IN THE THREAD std::thread first (closeLoop, stdscr);
    
-    first.join();
+    //ERROR IN THE THREAD first.join();
 
     //-------------------------------------------
 
@@ -93,7 +95,6 @@ int main () {
      */
     int hex2Dec (char* outputPort) {
 
-        /*
         if (isxdigit(outputPort[0])){
             int number;
             std::stringstream hexadecimal;
@@ -105,8 +106,7 @@ int main () {
         } else {
             return -1;
         }
-        */
-        return 40000;
+        
     }
 
     /**
@@ -132,15 +132,12 @@ int main () {
     char clasifiedData(char *buf, time_t &seconds, int &counter) {
 
         
-        //int number = hex2Dec(buf); // convert hex to dec
+        int number = hex2Dec(buf); // convert hex to dec
 
-        /*
         if (number == -1){
             return 'N';
         }
-        */
 
-        /*
         // 40000 means not muon decay
         if (number == 40000) {
 
@@ -160,7 +157,6 @@ int main () {
             clocks.push_back(seconds);
             return 'D';
         }
-        */
 
         return 'N';
     }
@@ -175,8 +171,7 @@ int main () {
             switch(option) {
                 case 1:
                     loop = false;
-                    {std::thread second (collectData);
-                    second.detach();}
+                    collectData();
                     break;
                 case 2:
                     loop = false;
@@ -248,13 +243,12 @@ int main () {
                 
                 File << buf << "\n";
 
-                //char type = clasifiedData(buf, seconds, counter);
+                char type = clasifiedData(buf, seconds, counter);
 
                 seconds = time(NULL);
                 long int elapsetime = seconds - timeinit;
                 dataLy.printElapsTime(elapsetime);
 
-                /*
                 if (type == 'M') {
                     ++counter;
                     counterMin += counter;
@@ -281,7 +275,6 @@ int main () {
                     }
                 } 
 
-                */
             }
         } while (loop);
         File.close();
