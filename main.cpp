@@ -257,11 +257,6 @@ int main () {
                     ++counter;
                     counterMin += counter;
     
-                    if ( (elapsetime % 60) == 0) {
-                        muonPerMinutHis.passTime(counterMin);
-                        counterMin = 0;
-                    }
-
                     dataLy.printNumMuon(counter);
                     dataLy.printMuonRate();
 
@@ -278,6 +273,11 @@ int main () {
                         }
                     }
                 } 
+
+                if ( (elapsetime % 60) == 0) {
+                    muonPerMinutHis.passTime(counterMin);
+                    counterMin = 0;
+                }
 
             }
         } while (loop);
