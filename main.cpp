@@ -6,6 +6,7 @@
 #include <string.h> // for std::string variables
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
+#include <ctype.h>
 
 #include <vector> // use std::vector
 #include <time.h> // get seconds
@@ -53,9 +54,11 @@ int main () {
 
     createLy(stdscr);
 
-    std::thread first (closeLoop, stdscr);
+    closeLoop(stdscr);
+
+    //ERROR IN THE THREAD std::thread first (closeLoop, stdscr);
    
-    first.join();
+    //ERROR IN THE THREAD first.join();
 
     //-------------------------------------------
 
@@ -92,13 +95,18 @@ int main () {
      */
     int hex2Dec (char* outputPort) {
 
-        int number;
-        std::stringstream hexadecimal;
+        if (isxdigit(outputPort[0])){
+            int number;
+            std::stringstream hexadecimal;
 
-        hexadecimal << std::hex << outputPort;
-        hexadecimal >> number;
+            hexadecimal << std::hex << outputPort;
+            hexadecimal >> number;
 
-        return number*40;
+            return number*40;
+        } else {
+            return -1;
+        }
+        
     }
 
     /**
@@ -134,6 +142,10 @@ int main () {
         
         int number = hex2Dec(buf); // convert hex to dec
 
+        if (number == -1){
+            return 'N';
+        }
+
         // 40000 means not muon decay
         if (number == 40000) {
 
@@ -167,8 +179,7 @@ int main () {
             switch(option) {
                 case 1:
                     loop = false;
-                    {std::thread second (collectData);
-                    second.detach();}
+                    collectData();
                     break;
                 case 2:
                     loop = false;
@@ -238,7 +249,8 @@ int main () {
 
                 char type = clasifiedData(buf, seconds, counter);
 
-                int elapsetime = seconds - timeinit;
+                seconds = time(NULL);
+                long int elapsetime = seconds - timeinit;
                 dataLy.printElapsTime(elapsetime);
 
                 if (type == 'M') {
@@ -267,8 +279,6 @@ int main () {
                     }
                 } 
 
-
             }
-            //rdlen = read(fd, buf, sizeof(buf));
         } while (loop);
     }

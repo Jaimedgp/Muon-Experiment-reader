@@ -13,8 +13,7 @@ class DataLy {
 		void printMuonDcy();
 		void printDcyRate();
 
-        int time, numberMuons, muonDcy;
-
+        long int time, numberMuons, muonDcy;
 
 	//private:
 		WINDOW *cursesWin;
