@@ -13,10 +13,10 @@ class Menu {
 		//~Menu();
 
 		void buildMenu();
-		int choiseMenu();
+		int choiseMenu(int c);
 
-	private:
 		WINDOW *menuWin;
+	private:
 		
 		int highlight, choice, n_choices;
 

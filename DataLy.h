@@ -5,6 +5,7 @@
 class DataLy {
 
 	public:
+		DataLy();
 		DataLy(WINDOW *);
 
 		void printElapsTime(int );
