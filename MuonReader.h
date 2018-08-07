@@ -22,6 +22,7 @@
 
 class MuonReader {
 	public:
+		MuonReader ();
 		MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy);
 
 		void collectData ();

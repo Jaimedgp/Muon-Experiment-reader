@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------
 
     WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
-    MuonReader *muonRead;
+    MuonReader muonRead = MuonReader();
     bool runProgram, readUSB;
 
     void createLy (WINDOW *mainWin);
@@ -30,7 +30,7 @@ int main () {
     createLy(stdscr);
 
     Menu mn = Menu(stdscr);
-    MuonReader muonRead = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
+    muonRead = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
 
     do {
 
@@ -39,12 +39,11 @@ int main () {
     	if (c != -1) {
     		int option = mn.choiseMenu(c);
     		menuOptions(option);
-    	} else {
-    		if (readUSB) {
-    			muonRead.collectData();
-    		}
-    	}
+    	} 
 
+        if (readUSB) {
+            muonRead.collectData();
+        }
 
     } while(runProgram);
 
@@ -82,14 +81,14 @@ int main () {
     	if (option != -1){
     		switch(option) {
                 case 1:
-                	muonRead->startReading();
+                	muonRead.startReading();
                     readUSB = true;
                     break;
                 case 2:
                     readUSB = false;
                     break;
                 case 4:
-                    muonRead->save();
+                    muonRead.save();
                     break;
                 case 6:
                     readUSB = false;

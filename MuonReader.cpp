@@ -8,18 +8,8 @@
 
 #include "MuonReader.h"
 
-MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy) {
-
-	Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
-
-    int numColmns = (COLS-(COLS/15))/4;
-
-    Histograms muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns);
-
-    DataLy dataLy = DataLy(showDataLy);
-
-    //-------------------------------------------
-
+MuonReader::MuonReader () {
+    
     nameOfDevice = "/dev/ttyUSB0";
 
     const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
@@ -36,6 +26,18 @@ MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *show
     if (fileAdress < 0) {
         std::cerr << "Error opening " << portname << ": " << std::endl;
     }
+}
+
+MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy) {
+
+	Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
+
+    int numColmns = (COLS-(COLS/15))/4;
+
+    Histograms muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns);
+
+    DataLy dataLy = DataLy(showDataLy);
+
 }
 
 /**
