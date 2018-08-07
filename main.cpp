@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include <iostream>
-#include <thread>
 #include <stdlib.h>
 #include <fstream> // write and read package
 #include <string.h> // for std::string variables
