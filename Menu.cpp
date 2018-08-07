@@ -27,8 +27,8 @@ Menu::Menu(WINDOW *mainWindow) {
 	menuWin = newwin((LINES)/3, COLS/4, 0, 3*COLS/4);
 	box(menuWin, 0, 0);//menuWindow;
 	keypad(menuWin, TRUE);
+	nodelay(menuWin, TRUE);
 	wrefresh(mainWindow);
-
 
 	n_choices = sizeof(choices) / sizeof(char *);
 	highlight = 1;
@@ -70,49 +70,39 @@ void Menu::buildMenu() {
 	wrefresh(menuWin);
 }
 
-int Menu::choiseMenu() {
+int Menu::choiseMenu(int c) {
 
-	bool loop = true;
+    choice = -1;
 
-	while (loop) {
-
-		halfdelay(1);
-
-		int c = wgetch(menuWin);
-		if (c != -1) {
-
-		    switch(c) {
-		       	case KEY_UP:
-		       		if(highlight == 1) {
+	switch(c) {
+	   	case KEY_UP:
+	 		if(highlight == 1) {
+	       		
+	      		highlight = n_choices;
+	  		} else {
 		           		
-		           		highlight = n_choices;
-		       		} else {
-		           		
-		           		--highlight;
-		       		}
-                    break;
-		       	
-		       	case KEY_DOWN:
-		       		if (highlight == n_choices) {
-		           		
-		           		highlight = 1;
-		       		} else {
-		           		
-		           		++highlight;
-		       		}
-                    break;
-		       	
-		       	case 10:
-		       		choice = highlight;
-		       		loop = false;
-		       		break;
-		       	default:
-		       		break;
-		    }
-		}
-    	
-    	buildMenu();
-	}
+	       		--highlight;
+            }
+            break;
+        
+        case KEY_DOWN:
+            if (highlight == n_choices) {
+                
+                highlight = 1;
+            } else {
+                
+                ++highlight;
+            }
+            break;
+        
+        case 10:
+                choice = highlight;
+                break;
+            default:
+                break;
+    }
+        
+    buildMenu();
 
     return choice;
 }
