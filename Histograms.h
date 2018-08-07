@@ -11,6 +11,7 @@
 
 class Histograms {
 	public:
+		Histograms(); // Constructor
 		Histograms(WINDOW* cursesWin, int maxValue, int numColumns); // Constructor
 		
 		void destroyHistograms(); // destructor

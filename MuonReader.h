@@ -22,7 +22,6 @@
 
 class MuonReader {
 	public:
-		MuonReader ();
 		MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy);
 
 		void collectData ();
@@ -45,9 +44,9 @@ class MuonReader {
 		int counterSec;
 		int counterMin;
 
-		Histograms *muonDcysHis;
-		Histograms *muonPerMinutHis;
-		DataLy *dataLy;
+		Histograms muonDcysHis = Histograms();
+		Histograms muonPerMinutHis = Histograms();
+		DataLy dataLy = DataLy();
 };
 
 #endif

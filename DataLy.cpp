@@ -1,5 +1,6 @@
 #include "DataLy.h"
 
+DataLy::DataLy () {}
 DataLy::DataLy (WINDOW *mainWin) {
 
     time = 0;

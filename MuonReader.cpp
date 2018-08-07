@@ -8,8 +8,16 @@
 
 #include "MuonReader.h"
 
-MuonReader::MuonReader () {
-    
+MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy) {
+
+	muonDcysHis = Histograms(muonDcysLy, 10, 20);
+
+    int numColmns = (COLS-(COLS/15))/4;
+
+    muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns);
+
+    dataLy = DataLy(showDataLy);
+
     nameOfDevice = "/dev/ttyUSB0";
 
     const char *portname = nameOfDevice.c_str(); // make the pointer of the name of the port a constant
@@ -28,23 +36,12 @@ MuonReader::MuonReader () {
     }
 }
 
-MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy) {
-
-	Histograms muonDcysHis = Histograms(muonDcysLy, 10, 20);
-
-    int numColmns = (COLS-(COLS/15))/4;
-
-    Histograms muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns);
-
-    DataLy dataLy = DataLy(showDataLy);
-
-}
-
 /**
 * Save the Data into a file
 *
 */
 void MuonReader::save() {
+
     time_t now = time(0);
     tm *ltm = localtime(&now);
     int year = 1900 + ltm->tm_year;
@@ -134,34 +131,33 @@ void MuonReader::collectData () {
 
         char type = clasifiedData(buf);
 
-        seconds = time(NULL);
         long int elapsetime = seconds - timeinit;
-        dataLy->printElapsTime(elapsetime);
+        dataLy.printElapsTime(elapsetime);
 
         if (type == 'M') {
             ++counterSec;
             counterMin += counterSec;
 
-            dataLy->printNumMuon(counterSec);
+            dataLy.printNumMuon(counterSec);
 
             counterSec = 0;
         } else if (type == 'D') {
-            dataLy->printMuonDcy();
+            dataLy.printMuonDcy();
 
             int elapse = hex2Dec(buf);
             for (int i = 1; i <=20; ++i) {
                 if (elapse < 1000*i) {
-                    muonDcysHis->drawIncrement(i-1);
+                    muonDcysHis.drawIncrement(i-1);
                     break;
                 }
             }
         } 
 
-        dataLy->printMuonRate();
-        dataLy->printDcyRate();
+        dataLy.printMuonRate();
+        dataLy.printDcyRate();
 
         if ( (elapsetime % 60) == 0) {
-            muonPerMinutHis->passTime(counterMin);
+            muonPerMinutHis.passTime(counterMin);
             counterMin = 0;
         }
 

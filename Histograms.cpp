@@ -9,6 +9,9 @@
 #include <cdk.h>
 #include "Histograms.h"
 
+Histograms::Histograms () {
+    
+}
 Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 
 	cdkscreen = initCDKScreen (cursesWin); // init cdk screen in ncurses window
