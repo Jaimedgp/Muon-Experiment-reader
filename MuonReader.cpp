@@ -94,6 +94,7 @@ char MuonReader::clasifiedData(char *buf) {
         // if events occured in less than a second
         if (seconds == time(NULL)){
             counterSec++;
+            return 'P';
         } else {
 
             elapsed.push_back(number+counterSec);
@@ -156,7 +157,7 @@ void MuonReader::collectData () {
         dataLy.printMuonRate();
         dataLy.printDcyRate();
 
-        if ( (elapsetime % 60) == 0) {
+        if ( (elapsetime % 60) == 0 && type != 'P' && type != 'n') {
             muonPerMinutHis.passTime(counterMin);
             counterMin = 0;
         }
