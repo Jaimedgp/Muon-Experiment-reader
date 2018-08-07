@@ -1,3 +1,5 @@
+#include <thread>
+
 #include "Menu.h"
 #include "MuonReader.h"
 
@@ -7,7 +9,12 @@
 
     WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
     MuonReader *muonRead;
+
+    std::thread USB;
+
     bool runProgram, readUSB;
+
+    void USBloop();
 
     void createLy (WINDOW *mainWin);
 
@@ -33,7 +40,10 @@ int main () {
     MuonReader mR = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
 
     muonRead = &mR;
-
+    
+    USB = std::thread (USBloop);
+    USB.detach();
+    
     do {
 
     	int c = wgetch(mn.menuWin);
@@ -43,9 +53,6 @@ int main () {
     		menuOptions(option);
     	} 
 
-        if (readUSB) {
-            muonRead->collectData();
-        }
 
     } while(runProgram);
 
@@ -62,6 +69,15 @@ int main () {
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+
+    void USBloop () {
+
+        while (1) {
+            if (readUSB) {
+                muonRead -> collectData();
+            }
+        }
+    }
 
    void createLy (WINDOW *mainWin) {
 
@@ -94,6 +110,7 @@ int main () {
                     break;
                 case 6:
                     readUSB = false;
+                    USB.~thread();
                     runProgram = false;
                     break;
                 default:
