@@ -8,6 +8,7 @@ class DataLy {
 		DataLy();
 		DataLy(WINDOW *);
 
+        void reset();
 		void printElapsTime(int );
 		void printNumMuon(int );
 		void printMuonRate();

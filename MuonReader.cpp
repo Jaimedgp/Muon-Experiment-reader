@@ -36,6 +36,27 @@ MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *show
     }
 }
 
+void MuonReader::Reset(){
+    elapsed.clear();
+    clocks.clear();
+
+    for (int i = 0; i < muonDcysHis.numclmns; ++i) {
+        muonDcysHis.vlue[i] = 0;
+    }
+
+    for (int i = 0; i < muonPerMinutHis.numclmns; ++i) {
+        muonPerMinutHis.vlue[i] = 0;
+    }
+
+    muonPerMinutHis.reDraw();
+    muonDcysHis.reDraw();
+    muonDcysHis.drawValues();
+    
+    //----------------------------------------------------
+    
+    dataLy.reset();
+}
+
 /**
 * Save the Data into a file
 *
@@ -113,9 +134,6 @@ char MuonReader::clasifiedData(char *buf) {
 }
 
 void MuonReader::startReading () {
-
-    timeinit = time(NULL);
-    seconds = time (NULL);
 
     counterSec = 0;
     counterMin = 0;

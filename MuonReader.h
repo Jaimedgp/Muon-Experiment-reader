@@ -24,6 +24,7 @@ class MuonReader {
 	public:
 		MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy);
 
+        void Reset();
 		void collectData ();
 		void startReading ();
 		void save();

@@ -23,10 +23,12 @@ class Histograms {
 		void passTime (int newTime);
 		void drawValues();
 
+        int numclmns;
+   		std::vector<int> vlue;
+
 	private:
         int xBorder, clmnhght, clmnwdth;
-   		int maxVlue, numclmns;
-   		std::vector<int> vlue;
+   		int maxVlue;
 
    		std::vector<CDKHISTOGRAM *> eachHistograms;
 

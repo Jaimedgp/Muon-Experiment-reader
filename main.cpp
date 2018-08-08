@@ -12,7 +12,7 @@
 
     std::thread USB;
 
-    bool runProgram, readUSB;
+    bool runProgram, readUSB, inPaused;
 
     void USBloop();
 
@@ -33,12 +33,13 @@ int main () {
     curs_set(0);
 
     runProgram = true;
+    inPaused = false;
 
     createLy(stdscr);
 
     Menu mn = Menu(stdscr);
-    MuonReader mR = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
 
+    MuonReader mR = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
     muonRead = &mR;
     
     USB = std::thread (USBloop);
@@ -100,10 +101,19 @@ int main () {
     		switch(option) {
                 case 1:
                 	muonRead->startReading();
+                    if (!inPaused) {
+                        muonRead -> timeinit = time(NULL);
+                        muonRead -> seconds = time(NULL);
+                    }
                     readUSB = true;
                     break;
                 case 2:
                     readUSB = false;
+                    inPaused = true;
+                    break;
+                case 3:
+                    inPaused = false;
+                    muonRead -> Reset();
                     break;
                 case 4:
                     muonRead->save();

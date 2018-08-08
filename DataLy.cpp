@@ -30,6 +30,22 @@ DataLy::DataLy (WINDOW *mainWin) {
     wrefresh(cursesWin);
 }
 
+void DataLy::reset() {
+    werase(cursesWin);
+
+    numberMuons = 0;
+    muonDcy = 0;
+
+    box(cursesWin, 0, 0);
+	mvwprintw(cursesWin, y            , xBrdrLabel, "Elapsed Time:");
+    mvwprintw(cursesWin, y+yInterval  , xBrdrLabel, "Number of Muons:");
+    mvwprintw(cursesWin, y+2*yInterval, xBrdrLabel, "Muon Rate (per second):");
+    mvwprintw(cursesWin, y+3*yInterval, xBrdrLabel, "Muon Decays:");
+    mvwprintw(cursesWin, y+4*yInterval, xBrdrLabel, "Decay Rate (per minute):");
+
+    wrefresh(cursesWin);
+}
+
 void DataLy::printElapsTime(int timer) {
 
     time = timer;
