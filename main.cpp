@@ -13,6 +13,7 @@
     std::thread USB;
 
     bool runProgram, readUSB, inPaused;
+    time_t initPaused;
 
     void USBloop();
 
@@ -104,12 +105,15 @@ int main () {
                     if (!inPaused) {
                         muonRead -> timeinit = time(NULL);
                         muonRead -> seconds = time(NULL);
+                    } else {
+                        muonRead -> timeinit += (time(NULL) - initPaused);
                     }
                     readUSB = true;
                     break;
                 case 2:
                     readUSB = false;
                     inPaused = true;
+                    initPaused = time(NULL);
                     break;
                 case 3:
                     inPaused = false;
