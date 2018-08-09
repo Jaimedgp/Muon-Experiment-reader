@@ -18,7 +18,7 @@ class Histograms {
 
 		void drawIncrement(int i);
 
-		void buildHistograms(WINDOW* cursesWin);
+		void buildHistograms();
 		void reDraw();
 		void passTime (int newTime);
 		void drawValues();
@@ -33,6 +33,7 @@ class Histograms {
    		std::vector<CDKHISTOGRAM *> eachHistograms;
 
 		CDKSCREEN *cdkscreen;
+        WINDOW *cursWin;
 };
 
 #endif
