@@ -11,7 +11,8 @@
 
 Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 
-	cdkscreen = initCDKScreen (cursesWin); // init cdk screen in ncurses window
+    cursWin = cursesWin;
+	cdkscreen = initCDKScreen (cursWin); // init cdk screen in ncurses window
 	maxVlue = maxValue; // maximum value for histograms
 	numclmns = numColumns; // 
 
@@ -22,7 +23,7 @@ Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 		vlue.push_back(0);
 	}
 
-	buildHistograms(cursesWin);
+	buildHistograms();
 
 
 	refreshCDKScreen (cdkscreen);
@@ -39,11 +40,11 @@ void Histograms::destroyHistograms () {
 	endCDK ();
 }
 
-void Histograms::buildHistograms(WINDOW* cursesWin) {
+void Histograms::buildHistograms() {
 
 	int x, y;
 
-	getmaxyx(cursesWin, y, x);
+	getmaxyx(cursWin, y, x);
 
 
 	xBorder = x/15;
@@ -80,6 +81,8 @@ void Histograms::buildHistograms(WINDOW* cursesWin) {
 
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
+
+        mvwprintw(cursWin, (9*y/10)+1, xBorder, "%d", i);
 
 	    xBorder += clmnwdth + 2;
 
