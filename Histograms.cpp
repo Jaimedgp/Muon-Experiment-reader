@@ -85,7 +85,11 @@ void Histograms::buildHistograms() {
 		/* Set the histogram values. */
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
 
-        mvwprintw(cursWin, (9*y/10)+1, xBorder, "%d", i);
+        /* print the x axis */
+        char *xVl;
+        sprintf(xVl, "%d", i);
+        mvwprintw(cursWin, (9*y/10)+1, xBorder, xVl);
+        drawLine (cursWin, xBorder+strlen(xVl), (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
 
 	    xBorder += clmnwdth + 2;
 
