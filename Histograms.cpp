@@ -62,7 +62,11 @@ void Histograms::buildHistograms() {
 	}
 
     clmnhght = 4*(y/5);
-    while (clmnhght+3 >= y) clmnhght -= 1;
+    while (clmnhght+3 >= y) {clmnhght -= 1;}
+
+    /* Print the y-axis */
+    mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
+    drawLine (cursWin, xBorder-1, (y/10), xBorder-1, (9*y/10)+1, '|');
 
 	for (int i = 0; i < numclmns ; ++i) {
 
@@ -86,10 +90,17 @@ void Histograms::buildHistograms() {
 		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
 
         /* print the x axis */
-        char *xVl;
-        sprintf(xVl, "%d", i);
-        mvwprintw(cursWin, (9*y/10)+1, xBorder, xVl);
-        drawLine (cursWin, xBorder+strlen(xVl), (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
+        if (i != 0) {
+            char *xVl;
+            sprintf(xVl, "%d", i);
+            mvwprintw(cursWin, (9*y/10)+1, xBorder, xVl);
+            drawLine (cursWin, xBorder+strlen(xVl), (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
+        } else {
+            char *xVl;
+            mvwprintw(cursWin, (9*y/10)+1, xBorder-1, "%d", 0);
+            drawLine (cursWin, xBorder, (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
+        }
+
 
 	    xBorder += clmnwdth + 2;
 
