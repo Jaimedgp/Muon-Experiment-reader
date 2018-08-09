@@ -127,6 +127,7 @@ char MuonReader::clasifiedData(char *buf) {
     } else { // Muon decay
         elapsed.push_back(number);
         clocks.push_back(seconds);
+        seconds = time(NULL);
         return 'D';
     }
 
@@ -175,7 +176,7 @@ void MuonReader::collectData () {
         dataLy.printMuonRate();
         dataLy.printDcyRate();
 
-        if ( (elapsetime % 60) == 0 && type != 'P' && type != 'n') {
+        if ( (elapsetime % 60) == 0 && type != 'P' && type != 'N') {
             muonPerMinutHis.passTime(counterMin);
             counterMin = 0;
         }
