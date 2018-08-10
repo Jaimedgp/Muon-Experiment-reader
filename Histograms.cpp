@@ -19,15 +19,11 @@ Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
 	maxVlue = maxValue; // maximum value for histograms
 	numclmns = numColumns; // 
 
-	//int vlue[numclmns];
-	//eachHistograms[numclmns];
-
 	for (int i = 0; i < numclmns; ++i ) {
 		vlue.push_back(0);
 	}
 
 	buildHistograms();
-
 
 	refreshCDKScreen (cdkscreen);
 } 
@@ -45,7 +41,6 @@ void Histograms::destroyHistograms () {
 
 void Histograms::buildHistograms() {
 
-	int x, y;
 
 	getmaxyx(cursWin, y, x);
 

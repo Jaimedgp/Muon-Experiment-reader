@@ -24,6 +24,7 @@ class Histograms {
 		void drawValues();
 
         int numclmns;
+        int x, y;
    		std::vector<int> vlue;
 
 	private:
