@@ -112,7 +112,7 @@ void Histograms::drawIncrement(int i) {
     }
 
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
-	drawValues();
+	drawValues(i);
 	refreshCDKScreen (cdkscreen);
 }
 
@@ -135,43 +135,40 @@ void Histograms::passTime (int newTime) {
 
     vlue[0] = newTime;
 
-    if (newTime >= maxVlue) {
-        maxVlue = newTime+1;
+    int maxInVector = 0;
+    for (int i = 0; i < numclmns; ++i) {
+        if (vlue[i] > maxInVector) maxInVector = vlue[i];
+    }
+
+    if (maxInVector !=  maxVlue) {
+        maxVlue = maxInVector;
         mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
     }
 
     reDraw();
 }
 
-void Histograms::drawValues() {
+void Histograms::drawValues(int col) {
 
     int xPos = xBorder - clmnwdth/2;
 
-    for (int i = numclmns - 1; i >= 0; --i) {
+    xPos -= (numclmns-1-col)*(clmnwdth + 2);
 
-    	char *mesg[1];
+    char *mesg[1];
 
-        if (vlue[i] > 0) {
-            char number[32];
-            char text[32] = "</R>";
-            char close[32] = "<!R>";
+    char number[32];
+    char text[32] = "</R>";
+    char close[32] = "<!R>";
 
-            sprintf(number, "%d", vlue[i]);
-            strcat(text, number);
-            strcat(text, close);        
+    sprintf(number, "%d", vlue[col]);
+    strcat(text, number);
+    strcat(text, close);        
 
-            mesg[0] = text;
+    mesg[0] = text;
 
-        } else {
-            char text[32] = " ";
+    if (vlue[col] > 99) --xPos;
 
-            mesg[0] = text;
-        }
-
-        CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
-
-        xPos -= clmnwdth + 2;
-    }
+    CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
 
     refreshCDKScreen (cdkscreen);
 }

@@ -50,7 +50,6 @@ void MuonReader::Reset(){
 
     muonPerMinutHis.reDraw();
     muonDcysHis.reDraw();
-    muonDcysHis.drawValues();
     
     //----------------------------------------------------
     

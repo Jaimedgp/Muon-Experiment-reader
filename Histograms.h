@@ -21,7 +21,7 @@ class Histograms {
 		void buildHistograms();
 		void reDraw();
 		void passTime (int newTime);
-		void drawValues();
+		void drawValues(int col);
 
         int numclmns;
         int x, y;
