@@ -108,7 +108,7 @@ void Histograms::drawIncrement(int i) {
     if (vlue[i] >=  maxVlue) {
         maxVlue = vlue[i]+1;
         reDraw();
-        mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
+        mvwprintw(cursWin, (y/10)-1, (x/15)-(2+1), "%d", maxVlue);
     }
 
 	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
@@ -142,7 +142,7 @@ void Histograms::passTime (int newTime) {
 
     if (maxInVector !=  maxVlue) {
         maxVlue = maxInVector;
-        mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
+        mvwprintw(cursWin, (y/10)-1, (x/15)-(2+1), "%d", maxVlue);
     }
 
     reDraw();
