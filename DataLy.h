@@ -20,7 +20,7 @@ class DataLy {
 	//private:
 		WINDOW *cursesWin;
 
-		int xBrdrLabel, y, yInterval;
+		int xBrdrLabel, yStart;
 };
 
 #endif
