@@ -44,6 +44,7 @@ class MuonReader {
 
 		int counterSec;
 		int counterMin;
+        int minute;
 
 		Histograms muonDcysHis = Histograms();
 		Histograms muonPerMinutHis = Histograms();

@@ -175,10 +175,10 @@ void MuonReader::collectData () {
         dataLy.printMuonRate();
         dataLy.printDcyRate();
 
-        if ( (elapsetime % 60) == 0 && type != 'P' && type != 'N') {
+        if (minute != (elapsetime/60)) {
             muonPerMinutHis.passTime(counterMin);
+            minute = elapsetime / 60;
             counterMin = 0;
         }
-
     }
 }
