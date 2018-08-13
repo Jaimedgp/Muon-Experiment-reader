@@ -42,14 +42,12 @@ void Menu::buildMenu() {
 	int x, y, xSize, ySize;
 	getmaxyx(menuWin, ySize, xSize);
 
-  	int yBorder = ySize/8;
+    if (ySize < (2*n_choices+1)) {
+        int error =-1;
+    }
 
-	int yInterval = (ySize-yBorder-6)/7;
-
-  	if (yInterval < 1) yInterval = 1; 
-	
-  	y = yInterval+yBorder;
-
+    int yStart = (ySize - 2*n_choices) / 2;
+    
 	for (int i = 0; i < n_choices; ++i) {
 
 		x = (xSize-strlen(choices[i]))/2;
@@ -57,14 +55,14 @@ void Menu::buildMenu() {
 		if (highlight == i + 1) {
 
 			wattron(menuWin, A_REVERSE);
-			mvwprintw(menuWin, y, x, "%s", choices[i]);
+			mvwprintw(menuWin, yStart, x, "%s", choices[i]);
 			wattroff(menuWin, A_REVERSE);
 		} else {
 
-			mvwprintw(menuWin, y, x, "%s", choices[i]);
+			mvwprintw(menuWin, yStart, x, "%s", choices[i]);
 		}
 
-		y += yInterval;
+		yStart += 2;
 	}
 	
 	wrefresh(menuWin);
