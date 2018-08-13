@@ -45,7 +45,7 @@ void Histograms::buildHistograms() {
 	getmaxyx(cursWin, y, x);
 
 
-	xBorder = x/15;
+	xBorder = x/20;
 
 	int Pixl = x-xBorder- 2*numclmns;
 
@@ -63,7 +63,8 @@ void Histograms::buildHistograms() {
     mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
     drawLine (cursWin, xBorder-1, (y/10), xBorder-1, (9*y/10)+1, '|');
 
-	for (int i = 0; i < numclmns ; ++i) {
+    int i;
+	for (i = 0; i < numclmns ; ++i) {
 
 		eachHistograms.push_back (newCDKHistogram (cdkscreen,
 						    xBorder,  // position of leftup corner X
@@ -96,10 +97,12 @@ void Histograms::buildHistograms() {
             drawLine (cursWin, xBorder, (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
         }
 
-
 	    xBorder += clmnwdth + 2;
 
 	}
+
+    mvwprintw(cursWin, (9*y/10)+1, xBorder, "%d", i);
+
 }
 
 void Histograms::drawIncrement(int i) {
