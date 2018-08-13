@@ -41,81 +41,113 @@ void Histograms::destroyHistograms () {
 
 void Histograms::buildHistograms() {
 
+    getmaxyx(cursWin, ySize, xSize);
 
-	getmaxyx(cursWin, y, x);
+
+    //----------------------------------
+    //         X positions         
+    //----------------------------------
+    
+        xBorder = xSize / 20;
+
+        /* obtain column width */
+        if (2*numclmns > (9*xSize/10)) {
+            numclmns = (9*xSize/10);
+            clmnwdth = 1;
+        } else {
+            clmnwdth = (9*xSize/10) / numclmns;
+        }
+
+        /* if window is not big enough */
+        while (xSize < (xBorder+ numclmns*(clmnwdth+2))) {
+            if (clmnwdth > 1) {
+                --clmnwdth
+            } else if (numclmns > 1) {
+                --numclmns;
+            } else {
+                int err = -1;
+            }
+        }
+
+        int xPos = xBorder;
 
 
-	xBorder = x/20;
+    //----------------------------------
+    //         Y positions         
+    //----------------------------------
 
-	int Pixl = x-xBorder- 2*numclmns;
+        clmnhght = 4*ySize/5;
 
-	if (numclmns > Pixl) { 
-		numclmns = Pixl;
-        clmnwdth = 1;
-	} else {
-        clmnwdth = Pixl/(numclmns);
-	}
+        yUpPos = ySize/10;
 
-    clmnhght = 4*(y/5);
-    while (clmnhght+3 >= y) {clmnhght -= 1;}
+        if (yUpPos < 1) yUpPos = 1;
 
-    /* Print the y-axis */
-    mvwprintw(cursWin, (y/10)-1, xBorder-(2+1), "%d", maxVlue);
-    drawLine (cursWin, xBorder-1, (y/10), xBorder-1, (9*y/10)+1, '|');
+        while (ySize < (2*yUpPos + clmnhght)) {
+            if (yUpPos > 1) {
+                --yUpPos;
+            } else {
+                --clmnhght;
+            }
+        }
+
+        yLwPos = yUpPos + clmnhght + 1;
+
+        /* Print the y-axis */
+        mvwprintw(cursWin, yUpPos, xBorder-(3), "%d", maxVlue);
+        drawLine (cursWin, xBorder-1, yUpPos+1, xBorder-1, yLwPos+1, '|');
+
+        /* Print the 0 */
+        mvwprintw(cursWin, (9*y/10)+1, xBorder-1, "%d", 0);
+        drawLine (cursWin, xBorder, yLwPos, xBorder+clmnwdth+2, yLwPos, '-');
 
     int i;
-	for (i = 0; i < numclmns ; ++i) {
+    for (i = 0; i < numclmns ; ++i) {
 
-		eachHistograms.push_back (newCDKHistogram (cdkscreen,
-						    xBorder,  // position of leftup corner X
-						    CENTER,   // position of left corner Y
-						    clmnhght, // height of the column
-						    clmnwdth, // width of the column
-						    VERTICAL, "", false, false));
-	
-		if (eachHistograms[i] == 0)	{
-			/* Exit CDK. */
-			destroyCDKScreen (cdkscreen);
-			endCDK ();
+        eachHistograms.push_back (newCDKHistogram (cdkscreen,
+                            xPos,  // position of leftup corner X
+                            CENTER,   // position of left corner Y
+                            clmnhght, // height of the column
+                            clmnwdth, // width of the column
+                            VERTICAL, "", false, false));
+    
+        if (eachHistograms[i] == 0) {
+            /* Exit CDK. */
+            destroyCDKScreen (cdkscreen);
+            endCDK ();
 
-			printf ("Cannot make treble histogram. Is the window big enough??\n");
-		}
+            int err = -1;
+        }
 
 
-		/* Set the histogram values. */
-		setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
+        /* Set the histogram values. */
+        setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
 
         /* print the x axis */
         if (i != 0) {
             char *xVl;
             sprintf(xVl, "%d", i);
-            mvwprintw(cursWin, (9*y/10)+1, xBorder, xVl);
-            drawLine (cursWin, xBorder+strlen(xVl), (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
-        } else {
-            char *xVl;
-            mvwprintw(cursWin, (9*y/10)+1, xBorder-1, "%d", 0);
-            drawLine (cursWin, xBorder, (9*y/10)+1, xBorder+clmnwdth+2, (9*y/10)+1, '-');
+            mvwprintw(cursWin, yLwPos, xPos, xVl);
+            drawLine (cursWin, xPos+strlen(xVl), yLwPos, xPos+clmnwdth+2, yLwPos, '-');
         }
 
-	    xBorder += clmnwdth + 2;
-
-	}
-
-    mvwprintw(cursWin, (9*y/10)+1, xBorder, "%d", i);
-
-}
-
-void Histograms::drawIncrement(int i) {
-
-	++vlue[i];
-    if (vlue[i] >=  maxVlue) {
-        maxVlue = vlue[i]+1;
-        reDraw();
-        mvwprintw(cursWin, (y/10)-1, (x/15)-(2+1), "%d", maxVlue);
+        xPos += clmnwdth + 2;
     }
 
-	setCDKHistogramValue (eachHistograms[i], 0, maxVlue, vlue[i]);
-	drawValues(i);
+    mvwprintw(cursWin, yLwPos, xPos, "%d", i);
+}
+
+
+void Histograms::drawIncrement(int col) {
+
+	++vlue[col];
+    if (vlue[col] >=  maxVlue) {
+        maxVlue = vlue[col]+1;
+        reDraw();
+        mvwprintw(cursWin, yUpPos, xBorder-3, "%d", maxVlue);
+    }
+
+	setCDKHistogramValue (eachHistograms[col], 0, maxVlue, vlue[col]);
+	drawValues(col);
 	refreshCDKScreen (cdkscreen);
 }
 
@@ -145,7 +177,7 @@ void Histograms::passTime (int newTime) {
 
     if (maxInVector !=  maxVlue) {
         maxVlue = maxInVector;
-        mvwprintw(cursWin, (y/10)-1, (x/15)-(2+1), "%d", maxVlue);
+        mvwprintw(cursWin, yUpPos, xBorder-3, "%d", maxVlue);
     }
 
     reDraw();
@@ -153,9 +185,7 @@ void Histograms::passTime (int newTime) {
 
 void Histograms::drawValues(int col) {
 
-    int xPos = xBorder - clmnwdth/2;
-
-    xPos -= (numclmns-1-col)*(clmnwdth + 2);
+    int xPos = xBorder + col*(clmnwdth+2) - (clmnwdth+2)/2;
 
     char *mesg[1];
 
@@ -171,7 +201,7 @@ void Histograms::drawValues(int col) {
 
     if (vlue[col] > 99) --xPos;
 
-    CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, clmnhght+4, mesg, 1, FALSE, FALSE);
+    CDKLABEL *demo = newCDKLabel (cdkscreen, xPos, yUpPos+clmnhght-1, mesg, 1, FALSE, FALSE);
 
     refreshCDKScreen (cdkscreen);
 }

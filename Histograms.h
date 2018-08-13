@@ -16,7 +16,7 @@ class Histograms {
 		
 		void destroyHistograms(); // destructor
 
-		void drawIncrement(int i);
+		void drawIncrement(int col);
 
 		void buildHistograms();
 		void reDraw();
@@ -24,12 +24,10 @@ class Histograms {
 		void drawValues(int col);
 
         int numclmns;
-        int x, y;
    		std::vector<int> vlue;
 
 	private:
-        int xBorder, clmnhght, clmnwdth;
-   		int maxVlue;
+        int xBorder, clmnhght, clmnwdth, maxVlue, yUpPos, yLwPos;
 
    		std::vector<CDKHISTOGRAM *> eachHistograms;
 
