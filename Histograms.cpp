@@ -41,6 +41,7 @@ void Histograms::destroyHistograms () {
 
 void Histograms::buildHistograms() {
 
+    int ySize, xSize;
     getmaxyx(cursWin, ySize, xSize);
 
 
@@ -59,9 +60,9 @@ void Histograms::buildHistograms() {
         }
 
         /* if window is not big enough */
-        while (xSize < (xBorder+ numclmns*(clmnwdth+2))) {
+        while (xSize < (xBorder + 1 + numclmns*(clmnwdth+2))) {
             if (clmnwdth > 1) {
-                --clmnwdth
+                --clmnwdth;
             } else if (numclmns > 1) {
                 --numclmns;
             } else {
@@ -82,7 +83,7 @@ void Histograms::buildHistograms() {
 
         if (yUpPos < 1) yUpPos = 1;
 
-        while (ySize < (2*yUpPos + clmnhght)) {
+        while (ySize <= (yUpPos + clmnhght + 3)) {
             if (yUpPos > 1) {
                 --yUpPos;
             } else {
@@ -90,14 +91,14 @@ void Histograms::buildHistograms() {
             }
         }
 
-        yLwPos = yUpPos + clmnhght + 1;
+        yLwPos = yUpPos + clmnhght + 2;
 
         /* Print the y-axis */
         mvwprintw(cursWin, yUpPos, xBorder-(3), "%d", maxVlue);
-        drawLine (cursWin, xBorder-1, yUpPos+1, xBorder-1, yLwPos+1, '|');
+        drawLine (cursWin, xBorder-1, yUpPos+1, xBorder-1, yLwPos, '|');
 
         /* Print the 0 */
-        mvwprintw(cursWin, (9*y/10)+1, xBorder-1, "%d", 0);
+        mvwprintw(cursWin, yLwPos, xBorder-1, "%d", 0);
         drawLine (cursWin, xBorder, yLwPos, xBorder+clmnwdth+2, yLwPos, '-');
 
     int i;
@@ -185,7 +186,7 @@ void Histograms::passTime (int newTime) {
 
 void Histograms::drawValues(int col) {
 
-    int xPos = xBorder + col*(clmnwdth+2) - (clmnwdth+2)/2;
+    int xPos = xBorder + (1+col)*(clmnwdth+2) - (clmnwdth+2)/2;
 
     char *mesg[1];
 
