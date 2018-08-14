@@ -16,7 +16,7 @@ DataLy::DataLy (WINDOW *mainWin) {
     /* X Border */
     xBrdrLabel = xSize/10;
     if (xBrdrLabel < 1) xBrdrLabel = 1;
-    if  (xSize < (xBrdrLabel+38)) {
+    if  (xSize < (xBrdrLabel+36)) {
         int error = -1;
     }
 
@@ -63,7 +63,7 @@ void DataLy::printElapsTime(int timer) {
     int minut = restHour / 60;
     int second = restHour % 60;
 
-	mvwprintw(cursesWin, yStart, xBrdrLabel+30, "%02d:%02d:%02d",hour, minut, second);
+	mvwprintw(cursesWin, yStart, xBrdrLabel+27, "%02d:%02d:%02d",hour, minut, second);
     wrefresh(cursesWin);
 }
 
@@ -71,10 +71,10 @@ void DataLy::printNumMuon(int numMuon) {
 
     numberMuons += numMuon;
     if (numberMuons < 1000) {
-        mvwprintw(cursesWin, yStart+2, xBrdrLabel+30, "%d", numberMuons);
+        mvwprintw(cursesWin, yStart+2, xBrdrLabel+27, "%d", numberMuons);
     } else {
         double kiloMuon = (double) numberMuons/1000;
-        mvwprintw(cursesWin, yStart+2, xBrdrLabel+30, "%.2f k", kiloMuon);
+        mvwprintw(cursesWin, yStart+2, xBrdrLabel+27, "%.2f k", kiloMuon);
     }
 
     wrefresh(cursesWin);
@@ -84,20 +84,20 @@ void DataLy::printMuonRate() {
 
     double muonRate = (double) numberMuons / time;
 
-	mvwprintw(cursesWin, yStart+4, xBrdrLabel+30, "%.2f", muonRate);
+	mvwprintw(cursesWin, yStart+4, xBrdrLabel+27, "%.2f", muonRate);
     wrefresh(cursesWin);
 }
 
 void DataLy::printMuonDcy() {
     ++muonDcy;
 
-	mvwprintw(cursesWin, yStart+6, xBrdrLabel+30, "%d", muonDcy);
+	mvwprintw(cursesWin, yStart+6, xBrdrLabel+27, "%d", muonDcy);
     wrefresh(cursesWin);
 }
 
 void DataLy::printDcyRate() {
     double dcyRate = (double) muonDcy / time;
 
-	mvwprintw(cursesWin, yStart+8, xBrdrLabel+30, "%.2f", dcyRate);
+	mvwprintw(cursesWin, yStart+8, xBrdrLabel+27, "%.2f", dcyRate);
     wrefresh(cursesWin);
 }
