@@ -192,10 +192,17 @@ void MuonReader::Fit () {
 
     TH1D *myHisto = new TH1D("MuonDecays", "", numBins, 0, 20);
     myHisto -> SetStats(0);
+    myHisto ->GetXaxis()->SetTitle("Muon Decay Time [#mu s]");
+    myHisto ->GetYaxis()->SetTitle("Events [Bin]");
+    
     
     for (int i=1; i <= numBins; ++i) {
-        myHisto -> AddBinContent(i, i);
+        myHisto -> AddBinContent(i, 10*exp(-i/2.2));
     }
+
+    TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
+    myHisto -> Fit(ex);
+
 
     myHisto -> Draw("E1");
     win -> SaveAs("Canvas.png");
