@@ -191,12 +191,13 @@ void MuonReader::Fit () {
     int numBins = muonDcysHis.numclmns;
 
     TH1D *myHisto = new TH1D("MuonDecays", "", numBins, 0, 20);
+    myHisto -> SetStats(0);
     
     for (int i=1; i <= numBins; ++i) {
         myHisto -> AddBinContent(i, i);
     }
 
-    myHisto -> Draw();
+    myHisto -> Draw("E1");
     win -> SaveAs("Canvas.png");
 
 }
