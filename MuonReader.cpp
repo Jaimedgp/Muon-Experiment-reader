@@ -182,3 +182,6 @@ void MuonReader::collectData () {
         }
     }
 }
+
+void MuonReader::Fit () {
+}

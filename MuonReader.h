@@ -17,6 +17,11 @@
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
 
+/* ROOT libraries */
+#include "TH1D.h" // ROOt histograms
+#include "TF1.h" // ROOT function to fit
+#include "TCanvas.h" // ROOT window
+
 #include "Histograms.h"
 #include "DataLy.h"
 
@@ -28,6 +33,7 @@ class MuonReader {
 		void collectData ();
 		void startReading ();
 		void save();
+        void Fit();
 
 		std::vector<int> elapsed;
     	std::vector<time_t> clocks;
