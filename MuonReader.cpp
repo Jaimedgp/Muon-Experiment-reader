@@ -184,4 +184,19 @@ void MuonReader::collectData () {
 }
 
 void MuonReader::Fit () {
+
+    TCanvas *win = new TCanvas("win", "win");
+    win -> cd();
+
+    int numBins = muonDcysHis.numclmns;
+
+    TH1D *myHisto = new TH1D("MuonDecays", "", numBins, 0, 20);
+    
+    for (int i=1; i <= numBins; ++i) {
+        myHisto -> AddBinContent(i, i);
+    }
+
+    myHisto -> Draw();
+    win -> SaveAs("Canvas.png");
+
 }
