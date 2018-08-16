@@ -9,6 +9,13 @@
 #include <iostream>
 #include <stdlib.h>
 
+/* ROOT libraries */
+#include "TH1D.h" // ROOT histograms
+#include "TF1.h" // ROOT fit
+#include "TCanvas.h" // ROOT window
+#include "TFormula.h"
+#include "TMath.h"
+
 #include <vector> // use std::vector
 #include <time.h> // get seconds
 #include <sstream> // converto hex >> dec
@@ -16,6 +23,8 @@
 #include <string.h> // for std::string variables
 #include <fcntl.h> // open port function
 #include <unistd.h> // read port function
+
+#include <math.h>
 
 #include "Histograms.h"
 #include "DataLy.h"
@@ -28,6 +37,7 @@ class MuonReader {
 		void collectData ();
 		void startReading ();
 		void save();
+        void Fit();
 
 		std::vector<int> elapsed;
     	std::vector<time_t> clocks;

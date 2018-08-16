@@ -182,3 +182,31 @@ void MuonReader::collectData () {
         }
     }
 }
+
+void MuonReader::Fit () {
+    def_prog_mode();                /* Guardar los modos tty                  */
+    endwin();                       /* Finalizar curnes temporalmente         */
+
+    TCanvas *win = new TCanvas("win", "win");
+    win -> cd();
+
+    int numBins = muonDcysHis.numclmns;
+    TH1D *myHist = new TH1D ("MuonDecays", "", numBins, 0, 20);
+
+    for (int i=1; i <= numBins; ++i) {
+       myHist -> AddBinContent(i, muonDcysHis.vlue[i]);
+    }
+
+    TF1 *exp = new TF1("exp", "[0]*exp(x/[1])", 1, 10);
+
+    myHist -> Fit("exp");
+
+    myHist->SetStats(0);  
+    myHist -> Draw();
+    myHist -> Draw("E1");
+
+    win -> SaveAs("canvas.png");
+
+    reset_prog_mode();              /* Regresar al modo tty previo            */
+    refresh();  
+}

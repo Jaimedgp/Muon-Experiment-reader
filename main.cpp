@@ -120,7 +120,10 @@ int main () {
                     muonRead -> Reset();
                     break;
                 case 4:
-                    muonRead->save();
+                    muonRead -> save();
+                    break;
+                case 5:
+                    muonRead -> Fit();
                     break;
                 case 6:
                     readUSB = false;
