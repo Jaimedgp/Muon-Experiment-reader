@@ -123,7 +123,13 @@ int main () {
                     muonRead -> save();
                     break;
                 case 5:
+                    def_prog_mode();                /* Guardar los modos tty                  */
+                    endwin();                       /* Finalizar curnes temporalmente         */
+
                     muonRead -> Fit();
+
+                    reset_prog_mode();              /* Regresar al modo tty previo            */
+                    refresh();  
                     break;
                 case 6:
                     readUSB = false;

@@ -184,29 +184,27 @@ void MuonReader::collectData () {
 }
 
 void MuonReader::Fit () {
-    def_prog_mode();                /* Guardar los modos tty                  */
-    endwin();                       /* Finalizar curnes temporalmente         */
 
     TCanvas *win = new TCanvas("win", "win");
     win -> cd();
 
     int numBins = muonDcysHis.numclmns;
-    TH1D *myHist = new TH1D ("MuonDecays", "", numBins, 0, 20);
 
+    TH1D *myHisto = new TH1D("MuonDecays", "", numBins, 0, 20);
+    myHisto -> SetStats(0);
+    myHisto ->GetXaxis()->SetTitle("Muon Decay Time [#mu s]");
+    myHisto ->GetYaxis()->SetTitle("Events [Bin]");
+    
+    
     for (int i=1; i <= numBins; ++i) {
-       myHist -> AddBinContent(i, muonDcysHis.vlue[i]);
+        myHisto -> AddBinContent(i, 10*exp(-i/2.2));
     }
 
-    TF1 *exp = new TF1("exp", "[0]*exp(x/[1])", 1, 10);
+    TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
+    myHisto -> Fit(ex);
 
-    myHist -> Fit("exp");
 
-    myHist->SetStats(0);  
-    myHist -> Draw();
-    myHist -> Draw("E1");
+    myHisto -> Draw("E1");
+    win -> SaveAs("Canvas.png");
 
-    win -> SaveAs("canvas.png");
-
-    reset_prog_mode();              /* Regresar al modo tty previo            */
-    refresh();  
 }

@@ -9,13 +9,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-/* ROOT libraries */
-#include "TH1D.h" // ROOT histograms
-#include "TF1.h" // ROOT fit
-#include "TCanvas.h" // ROOT window
-#include "TFormula.h"
-#include "TMath.h"
-
 #include <vector> // use std::vector
 #include <time.h> // get seconds
 #include <sstream> // converto hex >> dec
@@ -25,6 +18,11 @@
 #include <unistd.h> // read port function
 
 #include <math.h>
+
+/* ROOT libraries */
+#include "TH1D.h" // ROOt histograms
+#include "TF1.h" // ROOT function to fit
+#include "TCanvas.h" // ROOT window
 
 #include "Histograms.h"
 #include "DataLy.h"
