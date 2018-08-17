@@ -194,7 +194,7 @@ void MuonReader::Fit () {
     myHisto -> SetStats(0);
     myHisto ->GetXaxis()->SetTitle("Muon Decay Time [#mu s]");
     myHisto ->GetYaxis()->SetTitle("Events [Bin]");
-    
+    myHisto->SetMarkerStyle(21); 
     
     for (int i=1; i <= numBins; ++i) {
         myHisto -> AddBinContent(i, 10*exp(-i/2.2));
