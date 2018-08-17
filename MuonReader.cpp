@@ -32,7 +32,7 @@ MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *show
     fileAdress = open(portname, O_RDWR | O_NOCTTY | O_SYNC); // open the port
 
     if (fileAdress < 0) {
-        std::cerr << "Error opening " << portname << ": " << std::endl;
+        ErrorMessage();
     }
 }
 

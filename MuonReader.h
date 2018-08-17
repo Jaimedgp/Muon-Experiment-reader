@@ -24,6 +24,7 @@
 
 #include "Histograms.h"
 #include "DataLy.h"
+#include "ErrorMessage.h"
 
 class MuonReader {
 	public:
