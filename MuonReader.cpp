@@ -34,6 +34,8 @@ MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *show
     if (fileAdress < 0) {
         //ErrorMessage();
     }
+
+    minute = 0;
 }
 
 void MuonReader::Reset(){
@@ -54,6 +56,7 @@ void MuonReader::Reset(){
     //----------------------------------------------------
     
     dataLy.reset();
+    minute = 0;
 }
 
 /**
@@ -197,7 +200,7 @@ void MuonReader::Fit () {
     myHisto->SetMarkerStyle(21); 
     
     for (int i=1; i <= numBins; ++i) {
-        myHisto -> AddBinContent(i, 10*exp(-i/2.2));
+        myHisto -> AddBinContent(i, muonDcysHis.vlue[i-1]);
     }
 
     TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
