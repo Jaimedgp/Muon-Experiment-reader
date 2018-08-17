@@ -6,7 +6,6 @@
  * @version 1.0
  */
 
-#include <cdk.h>
 #include "Histograms.h"
 
 Histograms::Histograms () {
