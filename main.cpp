@@ -3,14 +3,12 @@
 
 #include "Menu.h"
 #include "MuonReader.h"
-#include "ErrorMessage.h"
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
 
     WINDOW *muonDcysLy, *muonPerMinutLy, *showDataLy;
-    PANEL *mainPanel[4];
     MuonReader *muonRead;
 
     std::thread USB;
@@ -42,11 +40,8 @@ int main () {
     createLy(stdscr);
 
     Menu mn = Menu(stdscr);
-    mainPanel[3] = new_panel(mn.menuWin);
 
     MuonReader mR = MuonReader (muonDcysLy, muonPerMinutLy, showDataLy);
-    ErrorMessage();
-    refresh();
     muonRead = &mR;
     
     USB = std::thread (USBloop);
@@ -92,17 +87,14 @@ int main () {
         muonDcysLy = newwin(2*(LINES)/3, 3*COLS/4, 0, 0);
         box(muonDcysLy, 0, 0);
         wrefresh(muonDcysLy);
-        mainPanel[0] = new_panel(muonDcysLy);
 
         muonPerMinutLy = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
         box(muonPerMinutLy, 0, 0);
         wrefresh(muonPerMinutLy);
-        mainPanel[1] = new_panel(muonPerMinutLy);
 
         showDataLy = newwin((LINES)/3, COLS/4, (LINES)/3, 3*COLS/4);
         box(showDataLy, 0, 0);
         wrefresh(showDataLy);
-        mainPanel[2] = new_panel(showDataLy);
     }
 
     void menuOptions(int option) {
