@@ -208,6 +208,16 @@ void MuonReader::Fit () {
 
 
     myHisto -> Draw("E1");
-    win -> SaveAs("Canvas.png");
+
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    int year = 1900 + ltm->tm_year;
+    int month = 1 + ltm->tm_mon;
+    int day = ltm->tm_mday;
+
+    char Filename[100];
+    sprintf(Filename, "Graph_%d-%d-%d.png", day, month, year);
+
+    win -> SaveAs(Filename);
 
 }
