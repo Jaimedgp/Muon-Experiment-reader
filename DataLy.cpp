@@ -59,8 +59,8 @@ void DataLy::printElapsTime(int timer) {
 
     time = timer;
     int hour = time/3600;
-    int restHour = time % 3600;
-    minut = restHour / 60;
+    restHour = time % 3600;
+    int minut = restHour / 60;
     int second = restHour % 60;
 
 	mvwprintw(cursesWin, yStart, xBrdrLabel+27, "%02d:%02d:%02d",hour, minut, second);
@@ -97,8 +97,12 @@ void DataLy::printMuonDcy() {
 
 void DataLy::printDcyRate() {
 
-    double dcyRate = (double) muonDcy / minut;
 
-	mvwprintw(cursesWin, yStart+8, xBrdrLabel+27, "%.2f", dcyRate);
-    wrefresh(cursesWin);
+    double min =  restHour / 60.0;
+    double dcyRate = (double) muonDcy / min;
+
+    if (dcyRate >= 0) {
+        mvwprintw(cursesWin, yStart+8, xBrdrLabel+27, "%.2f", dcyRate);
+        wrefresh(cursesWin);
+    }
 }

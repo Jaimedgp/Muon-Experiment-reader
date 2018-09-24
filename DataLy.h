@@ -16,7 +16,7 @@ class DataLy {
 		void printDcyRate();
 
         long int time, numberMuons, muonDcy;
-        int minut;
+        int restHour;
 
 	//private:
 		WINDOW *cursesWin;
