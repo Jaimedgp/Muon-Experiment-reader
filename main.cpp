@@ -88,7 +88,7 @@ int main () {
         box(muonDcysLy, 0, 0);
         wrefresh(muonDcysLy);
 
-        muonPerMinutLy = newwin((LINES)/3, COLS, 2*(LINES)/3, 0);
+        muonPerMinutLy = newwin(LINES-(2*LINES/3), COLS, 2*(LINES)/3, 0);
         box(muonPerMinutLy, 0, 0);
         wrefresh(muonPerMinutLy);
 
