@@ -82,7 +82,7 @@ void Histograms::buildHistograms() {
 
         if (yUpPos < 1) yUpPos = 1;
 
-        while (ySize <= (yUpPos + clmnhght + 3)) {
+        while (ySize <= (yUpPos + clmnhght + 4)) {
             if (yUpPos > 1) {
                 --yUpPos;
             } else {
@@ -100,40 +100,58 @@ void Histograms::buildHistograms() {
         mvwprintw(cursWin, yLwPos, xBorder-1, "%d", 0);
         drawLine (cursWin, xBorder, yLwPos, xBorder+clmnwdth+2, yLwPos, '-');
 
-    int i;
-    for (i = 0; i < numclmns ; ++i) {
-
-        eachHistograms.push_back (newCDKHistogram (cdkscreen,
-                            xPos,  // position of leftup corner X
-                            CENTER,   // position of left corner Y
-                            clmnhght, // height of the column
-                            clmnwdth, // width of the column
-                            VERTICAL, "", false, false));
     
-        if (eachHistograms[i] == 0) {
-            /* Exit CDK. */
-            destroyCDKScreen (cdkscreen);
-            endCDK ();
+    //----------------------------------
+    //         DRAW HISTOGRAMS     
+    //---------------------------------- 
 
-            int err = -1;
+        int i;
+        for (i = 0; i < numclmns ; ++i) {
+
+            eachHistograms.push_back (newCDKHistogram (cdkscreen,
+                                xPos,  // position of leftup corner X
+                                CENTER,
+                                clmnhght-1, // height of the column
+                                clmnwdth, // width of the column
+                                VERTICAL, "", false, false));
+        
+            if (eachHistograms[i] == 0) {
+                /* Exit CDK. */
+                destroyCDKScreen (cdkscreen);
+                endCDK ();
+
+                int err = -1;
+            }
+
+            /* Set the histogram values. */
+            setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
+
+            /* print the x axis */
+            if (i != 0) {
+                char *xVl;
+                sprintf(xVl, "%d", i);
+                mvwprintw(cursWin, yLwPos, xPos, xVl);
+                drawLine (cursWin, xPos+strlen(xVl), yLwPos, xPos+clmnwdth+2, yLwPos, '-');
+            }
+
+            xPos += clmnwdth + 2;
         }
 
+        mvwprintw(cursWin, yLwPos, xPos, "%d", i);
 
-        /* Set the histogram values. */
-        setCDKHistogram (eachHistograms[i], vNONE, CENTER, BAR (0, maxVlue, vlue[i]));
+    
+    //----------------------------------
+    //         DRAW LABELS     
+    //---------------------------------- 
 
-        /* print the x axis */
-        if (i != 0) {
-            char *xVl;
-            sprintf(xVl, "%d", i);
-            mvwprintw(cursWin, yLwPos, xPos, xVl);
-            drawLine (cursWin, xPos+strlen(xVl), yLwPos, xPos+clmnwdth+2, yLwPos, '-');
+        if (yLwPos+1 > ySize) {
+            --yLwPos;
         }
 
-        xPos += clmnwdth + 2;
-    }
-
-    mvwprintw(cursWin, yLwPos, xPos, "%d", i);
+        //char *xLabel;
+        //xLabel = "Muon Decay Time [\u03BC s]";
+        xPos = xSize-(22+1);
+        mvwprintw(cursWin, yLwPos+1, xPos, "Muon Decay Time [\u03BC s]");
 }
 
 
