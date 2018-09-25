@@ -11,12 +11,14 @@
 Histograms::Histograms () {
     
 }
-Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns) {
+Histograms::Histograms (WINDOW* cursesWin, int maxValue, int numColumns, char *xName, char *yName) {
 
     cursWin = cursesWin;
 	cdkscreen = initCDKScreen (cursWin); // init cdk screen in ncurses window
 	maxVlue = maxValue; // maximum value for histograms
 	numclmns = numColumns; // 
+    xLabel = xName;
+    yLabel = yName;
 
 	for (int i = 0; i < numclmns; ++i ) {
 		vlue.push_back(0);
@@ -148,10 +150,16 @@ void Histograms::buildHistograms() {
             --yLwPos;
         }
 
-        //char *xLabel;
-        //xLabel = "Muon Decay Time [\u03BC s]";
-        xPos = xSize-(22+1);
-        mvwprintw(cursWin, yLwPos+1, xPos, "Muon Decay Time [\u03BC s]");
+        xPos = xSize-(xLabel.size()+2);
+        mvwprintw(cursWin, yLwPos+1, xPos, "%s", xLabel.c_str());
+
+        int xLabelPos = xBorder / 2;
+        int yLabelPos = ((yLwPos-yUpPos) / 2) - (yLabel.size() / 2);
+        for (int i=0; i < yLabel.size(); ++i) {
+            std::string letter(1, yLabel.at(i));
+            mvwprintw(cursWin, yLabelPos+i, xLabelPos, "%s", letter.c_str());
+        }
+
 }
 
 
