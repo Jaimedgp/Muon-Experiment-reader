@@ -10,11 +10,11 @@
 
 MuonReader::MuonReader (WINDOW *muonDcysLy, WINDOW *muonPerMinutLy, WINDOW *showDataLy) {
 
-	muonDcysHis = Histograms(muonDcysLy, 10, 20);
+	muonDcysHis = Histograms(muonDcysLy, 10, 20, "Muon Decay Time [\u03BC s]", "Events");
 
     int numColmns = (COLS-(COLS/15))/4;
 
-    muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns);
+    muonPerMinutHis = Histograms(muonPerMinutLy, 200, numColmns, "Minuts", "Muons");
 
     dataLy = DataLy(showDataLy);
 
