@@ -7,12 +7,14 @@
 #define BAR(a,b,c) A_BOLD, a, b, c, ' '|A_REVERSE|COLOR_PAIR(3), false
 #include <cdk.h>
 #include <vector>
+#include <iostream>
+#include <string>
 
 
 class Histograms {
 	public:
 		Histograms(); // Constructor
-		Histograms(WINDOW* cursesWin, int maxValue, int numColumns); // Constructor
+		Histograms(WINDOW* cursesWin, int maxValue, int numColumns, char *xName, char *yName); // Constructor
 		
 		void destroyHistograms(); // destructor
 
@@ -30,6 +32,7 @@ class Histograms {
         int xBorder, clmnhght, clmnwdth, maxVlue, yUpPos, yLwPos;
 
    		std::vector<CDKHISTOGRAM *> eachHistograms;
+        std::string xLabel, yLabel;
 
 		CDKSCREEN *cdkscreen;
         WINDOW *cursWin;
