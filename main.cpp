@@ -125,9 +125,10 @@ int main () {
                     break;
                 case 5:
                     def_prog_mode();                /* Guardar los modos tty                  */
-                    endwin();                       /* Finalizar curnes temporalmente         */
+                    endwin();                       /* Finalizar curses temporalmente         */
 
                     muonRead -> Fit();
+                    getch();
 
                     reset_prog_mode();              /* Regresar al modo tty previo            */
                     refresh();  
