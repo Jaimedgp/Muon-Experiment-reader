@@ -97,7 +97,7 @@ int MuonReader::hex2Dec (char* outputPort) {
         hexadecimal << std::hex << outputPort;
         hexadecimal >> number;
 
-        return number*40;
+        return number*20;
     } else {
         return -1;
     }
@@ -112,7 +112,7 @@ char MuonReader::clasifiedData(char *buf) {
     }
 
     // 40000 means not muon decay
-    if (number == 40000) {
+    if (number == 20000) {
 
         // if events occured in less than a second
         if (seconds == time(NULL)){
