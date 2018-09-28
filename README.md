@@ -1,7 +1,7 @@
 # MULTIM: Muon Life TIMe data adquisition program
 Data Acquisition program for the Muon Lifetime 
 
-	![alt text](/docs/ScreenShots/Main.png)
+	![alt text](/docs/ScreenShots/Main.png "Figure 1")
 ## Requisites
 
 >* [cdk](https://invisible-island.net/cdk/#download)
