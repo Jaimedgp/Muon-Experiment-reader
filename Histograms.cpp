@@ -166,8 +166,8 @@ void Histograms::buildHistograms() {
 void Histograms::drawIncrement(int col) {
 
 	++vlue[col];
-    if (vlue[col] >=  maxVlue) {
-        maxVlue = vlue[col]+1;
+    if (vlue[col] >  maxVlue) {
+        maxVlue = vlue[col];
         reDraw();
         mvwprintw(cursWin, yUpPos, xBorder-3, "%d", maxVlue);
     }
