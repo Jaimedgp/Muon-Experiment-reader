@@ -15,25 +15,25 @@ Once you have installed all the software listed under "Requisites" you can now b
 
 1) Get the source
 
-	``` shell
-		git clone https://github.com/Jaimedgp/Muon-Experiment-reader
-	``` 
+``` shell
+git clone https://github.com/Jaimedgp/Muon-Experiment-reader
+``` 
 2) Compile
 
-	``` shell
-		g++ -o MULTIM main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
-	```
+``` shell
+g++ -o MULTIM main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
+```
 
-	or 
+or 
 
-	``` shell
-		make MULTIM 
-	```
+``` shell
+make MULTIM 
+```
 	
 3) Run
 	
-	``` shell
-		sudo ./MULTIM 
-	```
+``` shell
+sudo ./MULTIM 
+```
 
 ## Brief Introduction
