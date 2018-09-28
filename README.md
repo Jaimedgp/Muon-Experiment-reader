@@ -1,4 +1,4 @@
-# MULTIM: Muon Life TIMe data adquisition program
+# MULTI-DAQ: Muon Life TIme Data AdQuisition program 
 Data Acquisition program for the Muon Lifetime measurement
 
 ![alt text](/docs/Screenshots/Main.png "Figure 1")
@@ -21,19 +21,20 @@ git clone https://github.com/Jaimedgp/Muon-Experiment-reader
 2) Compile
 
 ``` shell
-g++ -o MULTIM main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
+g++ -o MULTI-DAQ main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
 ```
 
 or 
 
 ``` shell
-make MULTIM 
+make MULTI-DAQ 
 ```
 	
 3) Run
 	
 ``` shell
-sudo ./MULTIM 
+sudo ./MULTI-DAQ 
 ```
 
 ## Brief Introduction
+
