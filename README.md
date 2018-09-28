@@ -1,5 +1,5 @@
 # MULTIM: Muon Life TIMe data adquisition program
-Data Acquisition program for the Muon Lifetime 
+Data Acquisition program for the Muon Lifetime measurement
 
 ![alt text](/docs/Screenshots/Main.png "Figure 1")
 
@@ -9,13 +9,31 @@ Data Acquisition program for the Muon Lifetime
 >* [Ncurses](https://askubuntu.com/questions/270381/how-do-i-install-ncurses-header-files)
 >* [ROOT](https://root.cern.ch/building-root)
 
-## Compile
+## Installation
 
-``` shell
-g++ main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
-```
-or 
+Once you have installed all the software listed under "Requisites" you can now begin the installation process:
 
-``` shell
-make MuLTim-Daq
-```
+1) Get the source
+
+	``` shell
+		git clone https://github.com/Jaimedgp/Muon-Experiment-reader
+	``` 
+2) Compile
+
+	``` shell
+		g++ -o MULTIM main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
+	```
+
+	or 
+
+	``` shell
+		make MULTIM 
+	```
+	
+3) Run
+	
+	``` shell
+		sudo ./MULTIM 
+	```
+
+## Brief Introduction
