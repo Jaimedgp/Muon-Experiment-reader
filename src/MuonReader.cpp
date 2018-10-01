@@ -203,9 +203,8 @@ void MuonReader::Fit () {
         myHisto -> AddBinContent(i, muonDcysHis.vlue[i-1]);
     }
 
-    TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
-    myHisto -> Fit(ex);
-
+    //TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
+    myHisto -> Fit("expo");
 
     myHisto -> Draw("E1");
 
