@@ -118,7 +118,7 @@ char MuonReader::clasifiedData(char *buf) {
         if (seconds == time(NULL)){
             counterSec++;
             return 'P';
-        } else {
+        } else if (counterSec < 10) {
 
             elapsed.push_back(number+counterSec);
             clocks.push_back(seconds);
@@ -195,18 +195,17 @@ void MuonReader::Fit () {
 
     TH1D *myHisto = new TH1D("MuonDecays", "", numBins, 0, 20);
     myHisto -> SetStats(0);
-    myHisto ->GetXaxis()->SetTitle("Muon Decay Time [#mu s]");
-    myHisto ->GetYaxis()->SetTitle("Events [Bin]");
-    myHisto->SetMarkerStyle(21); 
+    myHisto -> GetXaxis()->SetTitle("Muon Decay Time [#mu s]");
+    myHisto -> GetYaxis()->SetTitle("Events [Bin]");
+    myHisto -> SetMarkerStyle(21); 
     
     for (int i=1; i <= numBins; ++i) {
         myHisto -> AddBinContent(i, muonDcysHis.vlue[i-1]);
     }
 
-    //TF1 *ex = new TF1("ex", "[0]*exp([1]*x)", 10, 2);
-    myHisto -> Fit("expo");
+    myHisto -> Fit("expo"); // Fit by an exponential exp([0]+[1]x)
 
-    myHisto -> Draw("E1");
+    myHisto -> Draw("E1"); // Draw the error bars with perpendicular lines at the edges
 
     time_t now = time(0);
     tm *ltm = localtime(&now);
