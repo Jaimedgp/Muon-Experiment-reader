@@ -1,4 +1,4 @@
-# MULTI-DAQ: Muon Life TIme Data AdQuisition program 
+# MULTI-DAQ: Muon Life TIme Data AcQuisition program 
 Data Acquisition program for the Muon Lifetime measurement
 
 ![alt text](/docs/Screenshots/Main.png "Figure 1")
