@@ -21,7 +21,7 @@ git clone https://github.com/Jaimedgp/Muon-Experiment-reader
 2) Compile
 
 ``` shell
-g++ -o MULTI-DAQ main.cpp Histograms.cpp Menu.cpp DataLy.cpp MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
+g++ -o MULTI-DAQ src/main.cpp src/Histograms.cpp src/Menu.cpp src/DataLy.cpp src/MuonReader.cpp -lcdk -lncurses -lpanel -pthread  -std=c++11 `root-config --cflags --libs`
 ```
 
 or 
