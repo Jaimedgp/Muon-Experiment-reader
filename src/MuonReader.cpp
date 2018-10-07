@@ -203,7 +203,8 @@ void MuonReader::Fit () {
         myHisto -> AddBinContent(i, muonDcysHis.vlue[i-1]);
     }
 
-    myHisto -> Fit("expo"); // Fit by an exponential exp([0]+[1]x)
+    TF1 *ex = new TF1("ex", "exp([0]+[1]*x)", 0, 20);
+    myHisto -> Fit("ex"); // Fit by an exponential exp([0]+[1]x)
 
     myHisto -> Draw("E1"); // Draw the error bars with perpendicular lines at the edges
 
