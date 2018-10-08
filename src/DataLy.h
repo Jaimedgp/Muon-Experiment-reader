@@ -22,6 +22,8 @@ class DataLy {
 		WINDOW *cursesWin;
 
 		int xBrdrLabel, yStart;
+    private:
+        int identation;
 };
 
 #endif
