@@ -40,4 +40,4 @@ sudo ./MULTI-DAQ
 
 ## Brief Introduction
 
-
+[Muon Physics](http://www.teachspin.com/muon-physics.html) of TeachSpin
