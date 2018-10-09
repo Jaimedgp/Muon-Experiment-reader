@@ -1,5 +1,5 @@
 # MULTI-DAQ: Muon Life TIme Data AcQuisition program 
-Data Acquisition program for the Muon Lifetime measurement
+Data Acquisition program for the Muon Lifetime measurement developed by Jaime Díez González-Pardo during a summer intership in the _Instituto de Fisica de Cantabria (IFCA)_ with the collaboration of Pablo Martínez Ruiz del Árbol as supervisor.
 
 ![alt text](/docs/Screenshots/Main.png "Figure 1")
 
@@ -31,10 +31,13 @@ make MULTI-DAQ
 ```
 	
 3) Run
-	
+
+Sudo/Su permissions are necessary in order to open and read the serial port
+
 ``` shell
 sudo ./MULTI-DAQ 
 ```
 
 ## Brief Introduction
+
 
