@@ -40,7 +40,7 @@ sudo ./MULTI-DAQ
 
 ## Brief Introduction
 
-[Muon Physics](http://www.teachspin.com/muon-physics.html) of TeachSpin
+MULTI-DAQ is a data acquisition program for the experiment (Measurement of the Muon Lifetime) for the use of the TeachSpin apparatus  [Muon Physics](http://www.teachspin.com/muon-physics.html)
 
-<img align="right" width="100" height="100" src="/docs/Screenshots/Scheme.png">
+<img align="right" width="450" height="300" src="/docs/Screenshots/Scheme.png">
 
