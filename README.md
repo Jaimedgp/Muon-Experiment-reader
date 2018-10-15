@@ -40,7 +40,7 @@ sudo ./MULTI-DAQ
 
 ## Brief Introduction
 
-MULTI-DAQ is a data acquisition program for the experiment (Measurement of the Muon Lifetime) for the use of the TeachSpin apparatus  [Muon Physics](http://www.teachspin.com/muon-physics.html). In this experiment the muoon lifetime is determined from the muons' decay time occures inside the detector. The sources are atmospherics muons.
+MULTI-DAQ is a data acquisition program for the experiment (Measurement of the Muon Lifetime) for the use of the TeachSpin apparatus  [Muon Physics](http://www.teachspin.com/muon-physics.html). In this experiment the muoon lifetime is determined from the muons' decay time occures inside the detector, using as source atmospherics muons.
 
 <img align="right" width="450" height="300" src="/docs/Screenshots/Scheme.png">
 
