@@ -45,3 +45,5 @@ MULTI-DAQ is a data acquisition program for the experiment (Measurement of the u
 <img align="right" width="350" height="200" src="/docs/Screenshots/Scheme.png">
 
 The program read from a serial port connected to the electric readout box of the experiment the signal of the detector with the information of the decay's time by means of the number of 50MHz clocks completed between both signals in hexadecimal system.
+
+The program must translate the signal from hexadecimal to decimal and multiply by 20 in order to obtain the muon decay time in nanoseconds (nanoseconds instead microsecond in order to treat it as int without decimals).
