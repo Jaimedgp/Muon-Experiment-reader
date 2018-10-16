@@ -1,5 +1,5 @@
 # MULTI-DAQ: Muon Life TIme Data AcQuisition program 
-Data Acquisition program for the Muon Lifetime measurement developed by Jaime Díez González-Pardo during summer intership in the _Instituto de Fisica de Cantabria (IFCA)_ with the collaboration of Pablo Martínez Ruiz del Árbol as supervisor.
+Data Acquisition program for the Muon Lifetime measurement developed by Jaime Díez González-Pardo during summer external practices in the _Instituto de Fisica de Cantabria (IFCA)_ with the collaboration of Pablo Martínez Ruiz del Árbol as supervisor.
 
 ![alt text](/docs/Screenshots/Main.png "Figure 1")
 
@@ -40,7 +40,7 @@ sudo ./MULTI-DAQ
 
 ## Brief Introduction
 
-MULTI-DAQ is a data acquisition program for the experiment (Measurement of the Muon Lifetime) for the use of the TeachSpin apparatus  [Muon Physics](http://www.teachspin.com/muon-physics.html). In this experiment the muoon lifetime is determined from the muons' decay time occures inside the detector, using as source atmospherics muons.
+MULTI-DAQ is a data acquisition program for the experiment (Measurement of the useful life) for the use of the TeachSpin [Muon Physics](http://www.teachspin.com/muon-physics.html) device. In this experiment, the life time of the muon is determined from the time of disintegration of the muons inside the detector, using atmospheric muons as a source.
 
-<img align="right" width="450" height="300" src="/docs/Screenshots/Scheme.png">
+<img align="right" width="350" height="200" src="/docs/Screenshots/Scheme.png">
 
