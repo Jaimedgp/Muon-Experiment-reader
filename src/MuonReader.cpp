@@ -207,6 +207,7 @@ void MuonReader::Fit () {
     myHisto -> Fit("ex"); // Fit by an exponential exp([0]+[1]x)
 
     myHisto -> Draw("E1"); // Draw the error bars with perpendicular lines at the edges
+    win -> Draw();
 
     time_t now = time(0);
     tm *ltm = localtime(&now);
